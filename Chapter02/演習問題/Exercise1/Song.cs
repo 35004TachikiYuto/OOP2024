@@ -20,9 +20,6 @@ namespace Exercise1 {
             Title = title;
             ArtistName = artistName;
             Lengh = length;
-
-
-        }
-        
+        }        
     }
 }

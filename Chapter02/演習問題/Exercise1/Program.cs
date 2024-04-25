@@ -10,13 +10,13 @@ namespace Exercise1 {
         static void Main(string[] args) {
 
             var songs = new Song[] {
-                Song song
 
-
-
+            new Song("Lemon","米津玄師",300),
+            new Song("クリスマスソング","back number",330),
+            new Song("キセキ","GreeeeN",360)
             };
             
-            
+            PrintSongs(songs);
         }
 
         //2.1.4
