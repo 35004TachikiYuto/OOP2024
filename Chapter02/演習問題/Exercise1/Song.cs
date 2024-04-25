@@ -14,12 +14,12 @@ namespace Exercise1 {
         //アーティスト名
         public string ArtistName { get; set; }
         //演奏時間、単位は秒
-        public int Lengh { get; set; }
+        public int Length { get; set; }
 
         public Song(string title, string artistName, int length) {
             Title = title;
             ArtistName = artistName;
-            Lengh = length;
+            Length = length;
         }        
     }
 }

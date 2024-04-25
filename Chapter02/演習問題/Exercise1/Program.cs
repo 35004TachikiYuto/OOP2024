@@ -13,7 +13,9 @@ namespace Exercise1 {
 
             new Song("Lemon","米津玄師",300),
             new Song("クリスマスソング","back number",330),
-            new Song("キセキ","GreeeeN",360)
+            new Song("キセキ","GreeeeN",360),
+            new Song("花束","back number",375),
+            new Song("前前前世","RADWIMPS",400)
             };
             
             PrintSongs(songs);
@@ -22,7 +24,10 @@ namespace Exercise1 {
         //2.1.4
         private static void PrintSongs(Song[] songs) {
 
-            Console.WriteLine(@"{0:hh\:mm\:ss}",TimeSpan.FromSeconds(153));
+            foreach (var song in songs) {
+
+                Console.WriteLine(@"{0},{1},{2:mm\:ss}",song.Title,song.ArtistName,TimeSpan.FromSeconds(song.Length));
+            }
         }
 
     }
