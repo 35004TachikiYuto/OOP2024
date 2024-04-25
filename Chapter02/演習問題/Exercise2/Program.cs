@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -15,7 +16,6 @@ namespace Exercise2 {
                 //メートルからインチの対応表を出力
                 PrintMeterToInchList(int.Parse(args[1]), int.Parse(args[2]));
             }
-
         }
 
         static void PrintMeterToInchList(int start, int stop) {
