@@ -1,7 +1,7 @@
 namespace BallApp {
     public partial class Form1 : Form {
 
-        SoccerBall soccerBall; 
+        SoccerBall soccerBall;
         PictureBox pb;
 
         //コンストラクタ
@@ -12,7 +12,7 @@ namespace BallApp {
 
         //フォームが最初にロードされるとき一度だけ実行される
         private void Form1_Load(object sender, EventArgs e) {
-           
+
         }
 
         private void timer1_Tick(object sender, EventArgs e) {
@@ -24,16 +24,20 @@ namespace BallApp {
 
         private void Form1_MouseClick(object sender, MouseEventArgs e) {
 
-            pb = new PictureBox();//画像を表示するコントロール
-            pb.Size = new Size(50, 50);
+            MouseButtons mb = e.Button;
+            if (mb.Equals(MouseButtons.Left)) {
+                pb = new PictureBox();//画像を表示するコントロール
+                pb.Size = new Size(50, 50);
 
-            soccerBall = new SoccerBall(e.X-25,e.Y-25);
-            pb.Image = soccerBall.Image;
-            pb.Location = new Point((int)soccerBall.PosX,(int)soccerBall.PosY);
-            pb.SizeMode = PictureBoxSizeMode.StretchImage;
-            pb.Parent = this;
 
-            timer1.Start();
+                soccerBall = new SoccerBall(e.X - 25, e.Y - 25);
+                pb.Image = soccerBall.Image;
+                pb.Location = new Point((int)soccerBall.PosX, (int)soccerBall.PosY);
+                pb.SizeMode = PictureBoxSizeMode.StretchImage;
+                pb.Parent = this;
+
+                timer1.Start();
+            }
         }
     }
 }
