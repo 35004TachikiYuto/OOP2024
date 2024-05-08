@@ -1,7 +1,7 @@
 namespace BallApp {
     public partial class Form1 : Form {
 
-        SoccerBall soccerBall;
+        Obj obj;
         PictureBox pb;
 
         //コンストラクタ
@@ -17,22 +17,33 @@ namespace BallApp {
 
         private void timer1_Tick(object sender, EventArgs e) {
 
-            soccerBall.Move();
-            pb.Location = new Point((int)soccerBall.PosX, (int)soccerBall.PosY);
+            
+                obj.Move();
+                pb.Location = new Point((int)obj.PosX, (int)obj.PosY);
+           
 
         }
 
         private void Form1_MouseClick(object sender, MouseEventArgs e) {
 
-            MouseButtons mb = e.Button;
-            if (mb.Equals(MouseButtons.Left)) {
-                pb = new PictureBox();//画像を表示するコントロール
+            pb = new PictureBox();//画像を表示するコントロール
+
+            if (e.Button == MouseButtons.Left) {
+                obj = new SoccerBall(e.X, e.Y);
                 pb.Size = new Size(50, 50);
+                pb.Image = obj.Image;
+                pb.Location = new Point((int)obj.PosX, (int)obj.PosY);
+                pb.SizeMode = PictureBoxSizeMode.StretchImage;
+                pb.Parent = this;
 
+                timer1.Start();
+                
 
-                soccerBall = new SoccerBall(e.X - 25, e.Y - 25);
-                pb.Image = soccerBall.Image;
-                pb.Location = new Point((int)soccerBall.PosX, (int)soccerBall.PosY);
+            } else if (e.Button == MouseButtons.Right) {
+                obj = new TennisBall(e.X, e.Y);
+                pb.Size = new Size(25, 25);
+                pb.Image = obj.Image;
+                pb.Location = new Point((int)obj.PosX, (int)obj.PosY);
                 pb.SizeMode = PictureBoxSizeMode.StretchImage;
                 pb.Parent = this;
 

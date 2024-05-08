@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace BallApp {
     internal class TennisBall :Obj{
+
         public TennisBall(double xp, double yp)
-           : base(xp, yp, @"Picture\tennis_ball.png") {
+           : base(xp - 12, yp - 12, @"Picture\tennis_ball.png") {
 
             MoveX = 10;//移動量設定
             MoveY = 10;
