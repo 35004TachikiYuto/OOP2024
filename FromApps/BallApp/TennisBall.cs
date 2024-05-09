@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace BallApp {
     internal class TennisBall :Obj{
+
+        Random r = new Random();
+
         public static int Count {  get; set; }
+
         public TennisBall(double xp, double yp)
            : base(xp - 12, yp - 12, @"Picture\tennis_ball.png") {
 
-            MoveX = 10;//移動量設定
-            MoveY = 10;
+            MoveX = r.Next(-25, 25);//移動量設定
+            MoveY = r.Next(-25, 25);
             Count++;
         }
 
