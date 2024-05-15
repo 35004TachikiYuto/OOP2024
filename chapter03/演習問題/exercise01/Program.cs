@@ -42,7 +42,13 @@ namespace exercise01 {
         }
 
         private static void Exercise1_4(List<int> numbers) {
-        
+            IEnumerable<int> query = numbers.Select(s => s * 2);
+            List<int> list = query.ToList();
+            foreach (int s in list)
+                Console.WriteLine(s);
+            {
+                
+            }
         }
     }
 }
