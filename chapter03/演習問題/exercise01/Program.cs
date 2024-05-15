@@ -27,27 +27,34 @@ namespace exercise01 {
 
         private static void Exercise1_1(List<int> numbers) {
             var exercise1_1 = numbers.Exists(s => s % 8 == 0 || s % 9 == 0);
-            Console.WriteLine(exercise1_1);
+            if (exercise1_1) {
+                Console.WriteLine("存在しています");
+            } else {
+                Console.WriteLine("存在していません");
+            }
         }
 
         private static void Exercise1_2(List<int> numbers) {
-            var exrrcise1_2 = numbers.ConvertAll(s => s / 2.0);
-            exrrcise1_2.ForEach(s => Console.WriteLine(s));
+
+            numbers.ForEach(s => Console.WriteLine(s / 2.0));
         }
 
         private static void Exercise1_3(List<int> numbers) {
-            IEnumerable<int> query = numbers.Where(s => s >= 50);
+            numbers.Where(s => s >= 50).ToList().
+                                        ForEach(s => Console.WriteLine(s));
+            /*IEnumerable<int> query = numbers.Where(s => s >= 50);
             foreach(int s in query) 
-                Console.WriteLine(s);
+                Console.WriteLine(s);*/
         }
 
         private static void Exercise1_4(List<int> numbers) {
-            IEnumerable<int> query = numbers.Select(s => s * 2);
+            numbers.Select(s => s * 2).ToList().ForEach(s => Console.WriteLine(s));
+            /*IEnumerable<int> query = numbers.Select(s => s * 2);
             List<int> list = query.ToList();
             foreach (int s in list)
-                Console.WriteLine(s);
+                Console.WriteLine(s);*/
             {
-                
+
             }
         }
     }
