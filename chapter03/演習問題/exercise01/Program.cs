@@ -31,7 +31,8 @@ namespace exercise01 {
         }
 
         private static void Exercise1_2(List<int> numbers) {
-        
+            var exrrcise1_2 = numbers.ConvertAll(s => s / 2.0);
+            exrrcise1_2.ForEach(s => Console.WriteLine(s));
         }
 
         private static void Exercise1_3(List<int> numbers) {
