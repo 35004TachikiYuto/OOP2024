@@ -63,6 +63,9 @@ namespace exercise02 {
         }
 
         private static void Exercise2_4(List<string> names) {
+            var selected = names.Where(s => s[0]== 'B').Select(s=>s.Length);
+            foreach (var name in selected)
+                Console.WriteLine(name);
         }
     }
 }
