@@ -52,12 +52,14 @@ namespace exercise02 {
         }
 
         private static void Exercise2_2(List<string> names) {
-            int cnt = names.Count(s => s.Contains('o'));
-            Console.WriteLine(cnt+"個");
+            var cnt = names.Count(s => s.Contains('o'));
+            Console.WriteLine(cnt + "個");
         }
 
         private static void Exercise2_3(List<string> names) {
-         
+            var selected = names.Where(s => s.Contains('o')).ToArray();
+            foreach(var name in selected)
+                Console.WriteLine(name);
         }
 
         private static void Exercise2_4(List<string> names) {
