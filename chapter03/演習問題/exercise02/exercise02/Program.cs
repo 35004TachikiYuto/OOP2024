@@ -23,15 +23,15 @@ namespace exercise02 {
             Exercise2_1(names);
             Console.WriteLine();
 
-            Console.WriteLine("*****3.2.1*****");
+            Console.WriteLine("*****3.2.2*****");
             Exercise2_2(names);
             Console.WriteLine();
 
-            Console.WriteLine("*****3.2.1*****");
+            Console.WriteLine("*****3.2.3*****");
             Exercise2_3(names);
             Console.WriteLine();
 
-            Console.WriteLine("*****3.2.1*****");
+            Console.WriteLine("*****3.2.4*****");
             Exercise2_4(names);
             Console.WriteLine();
         }
@@ -52,12 +52,12 @@ namespace exercise02 {
         }
 
         private static void Exercise2_2(List<string> names) {
-
-           
-
+            int cnt = names.Count(s => s.Contains('o'));
+            Console.WriteLine(cnt+"個");
         }
 
         private static void Exercise2_3(List<string> names) {
+         
         }
 
         private static void Exercise2_4(List<string> names) {
