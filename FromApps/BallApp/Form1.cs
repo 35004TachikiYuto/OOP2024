@@ -1,6 +1,7 @@
 namespace BallApp {
     public partial class Form1 : Form {
 
+        private int scoreCount = 0;
 
         //Listコレクション
         private List<Obj> balls = new List<Obj>();//ボールインスタンス格納用
@@ -18,12 +19,15 @@ namespace BallApp {
 
         //フォームが最初にロードされるとき一度だけ実行される
         private void Form1_Load(object sender, EventArgs e) {
+            this.Text = "BallApp SoccerBall:0 TennisBall:0";
+
+            score.Text = "スコア:" + this.scoreCount;
 
             bar = new Bar(340, 500);
             pbBar = new PictureBox();
 
             pbBar.Image = bar.Image;
-            pbBar.Location = new Point((int)bar.PosX,(int)bar.PosY);
+            pbBar.Location = new Point((int)bar.PosX, (int)bar.PosY);
             pbBar.Size = new Size(150, 10);
             pbBar.SizeMode = PictureBoxSizeMode.StretchImage;
             pbBar.Parent = this;
@@ -36,10 +40,27 @@ namespace BallApp {
             //pb.Location = new Point((int)ball.PosX, (int)ball.PosY);
 
             for (int i = 0; i < balls.Count; i++) {
-                balls[i].Move(pbBar, pbs[i]);
-                pbs[i].Location = new Point((int)balls[i].PosX, (int)balls[i].PosY);
+                int judgement = balls[i].Move(pbBar, pbs[i]);
+                //落下したボールインスタンスを削除する
+                if (judgement == 1) {
+                    balls.RemoveAt(i);
+                    pbs[i].Location = new Point(2000,2000);
+                    pbs.RemoveAt(i);
+                    this.scoreCount -= 10;
+                    score.Text = "スコア:" + this.scoreCount;
+
+                } else if (judgement == 2) {
+                    //バーに当たった
+                    score.Text = "スコア:" + ++this.scoreCount;
+                    pbs[i].Location = new Point((int)balls[i].PosX, (int)balls[i].PosY);
+                } else{
+                    //正常移動
+                    pbs[i].Location = new Point((int)balls[i].PosX, (int)balls[i].PosY);
+                }
             }
         }
+
+
 
         //マウスクリックイベントハンドラ
         private void Form1_MouseClick(object sender, MouseEventArgs e) {

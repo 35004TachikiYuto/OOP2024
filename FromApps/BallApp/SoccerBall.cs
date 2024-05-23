@@ -2,46 +2,65 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-
 namespace BallApp {
     internal class SoccerBall : Obj {
-        Random r = new Random();//乱数インスタンンス
+        Random random = new Random();   //乱数インスタンス
 
-        public static int Count {  get; set; }
+        public static int Count { get; set; }
 
         public SoccerBall(double xp, double yp)
-            : base(xp - 25, yp - 25, @"Picture\soccer_ball.png") {
+            : base(xp, yp, @"Picture\soccer_ball.png") {
 
-            MoveX = r.Next(-25,25);//移動量設定
-            MoveY = r.Next(-25, 25);
+#if DEBUG
+            MoveX = 5;
+            MoveY = 5;
+#else
+            MoveX = random.Next(-25, 25); //移動量設定
+            MoveY = random.Next(-25, 25);
+#endif
+
+
             Count++;
         }
 
-        public override bool Move(PictureBox pbBar,PictureBox pbBall) {
-            Rectangle rBar = new Rectangle(pbBar.Location.X,pbBar.Location.Y,
-                                                                  pbBar.Width,pbBar.Height);
+        public override int Move(PictureBox pbBar, PictureBox pbBall) {
+            int ret = 0;
+
+            Rectangle rBar = new Rectangle(pbBar.Location.X, pbBar.Location.Y,
+                                                         pbBar.Width, pbBar.Height);
 
             Rectangle rBall = new Rectangle(pbBall.Location.X, pbBall.Location.Y,
-                                                                  pbBall.Width, pbBall.Height);
+                                                         pbBall.Width, pbBall.Height);
+
 
 
             if (PosX > 750 || PosX < 0) {
-                //移動の符号を反転
+                //移動量の符号を反転
                 MoveX = -MoveX;
             }
 
-            if (PosY > 500 || PosY < 0|| rBar.IntersectsWith(rBall)) {
-                //移動の符号を反転
+            if (PosY < 0) {
+                //移動量の符号を反転
                 MoveY = -MoveY;
             }
 
+            //バーに当たったかの判定（IntersectsWith）
+            if (rBar.IntersectsWith(rBall)) {
+                MoveY = -MoveY;
+                ret = 2;
+            }
+
             PosX += MoveX;
-            PosY += MoveY;
+            PosY += MoveY++;
 
-            return true;
+            //下に落下したか？
+            if (PosY > 600)
+                ret = 1;
 
-            
+            //移動完了
+            return ret;
         }
 
         public override bool Move(Keys direction) {

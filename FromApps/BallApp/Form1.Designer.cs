@@ -25,12 +25,23 @@
         private void InitializeComponent() {
             components = new System.ComponentModel.Container();
             timer1 = new System.Windows.Forms.Timer(components);
+            score = new Label();
             SuspendLayout();
             // 
             // timer1
             // 
-            timer1.Interval = 10;
+            timer1.Interval = 70;
             timer1.Tick += timer1_Tick;
+            // 
+            // score
+            // 
+            score.AutoSize = true;
+            score.Font = new Font("Yu Gothic UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            score.Location = new Point(592, -2);
+            score.Name = "score";
+            score.Size = new Size(86, 32);
+            score.TabIndex = 0;
+            score.Text = "スコア:0";
             // 
             // Form1
             // 
@@ -38,15 +49,18 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.ForestGreen;
             ClientSize = new Size(784, 561);
+            Controls.Add(score);
             Name = "Form1";
             Text = "BallApp";
             Load += Form1_Load;
             KeyDown += Form1_KeyDown;
             MouseClick += Form1_MouseClick;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
         private System.Windows.Forms.Timer timer1;
+        private Label score;
     }
 }

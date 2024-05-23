@@ -10,22 +10,16 @@ namespace BallApp {
         public Bar(double xp, double yp)
            : base(xp - 25, yp - 25, @"Picture\bar.png") {
 
-            MoveX = 100;
+            MoveX = 10;
+            MoveY = 0;
         }
 
-        public override bool Move(PictureBox pbBar, PictureBox pbBall) {
-            return true;
+        public override int Move(PictureBox pbBar, PictureBox pbBall) {
+            return 0;
         }
 
         public override bool Move(Keys direction) {
-
-
-
             
-            if (PosX > 625 || PosX < 0) {
-                //移動の符号を反転
-                MoveX = -MoveX;
-            }
             if (direction == Keys.Right) {
                 if (PosX < 635) {
                     PosX += MoveX;

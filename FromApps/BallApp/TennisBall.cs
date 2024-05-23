@@ -5,21 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BallApp {
-    internal class TennisBall :Obj{
+    internal class TennisBall : Obj {
 
         Random r = new Random();
 
-        public static int Count {  get; set; }
+        public static int Count { get; set; }
 
         public TennisBall(double xp, double yp)
            : base(xp - 12, yp - 12, @"Picture\tennis_ball.png") {
 
-            MoveX = r.Next(-25, 25);//移動量設定
-            MoveY = r.Next(-25, 25);
+#if DEBUG
+            MoveX = 5;
+            MoveY = 5;
+#else
+            MoveX = r.Next(-15, 15);//移動量設定
+            MoveY = r.Next(-15, 15);
+#endif
             Count++;
-        }
+            }
 
-        public override bool Move(PictureBox pbBar, PictureBox pbBall) {
+        //戻り値;0…移動OK,1…落下した,2…バーに当たった
+        public override int Move(PictureBox pbBar, PictureBox pbBall) {
+            int ret = 0;
             Rectangle rBar = new Rectangle(pbBar.Location.X, pbBar.Location.Y,
                                                                   pbBar.Width, pbBar.Height);
 
@@ -31,15 +38,30 @@ namespace BallApp {
                 MoveX = -MoveX;
             }
 
-            if (PosY > 500 || PosY < 0) {
+            if (PosY < 0) {
                 //移動の符号を反転
                 MoveY = -MoveY;
             }
 
-            PosX += MoveX;
-            PosY += MoveY;
+            //バーに当たったかの判定(IntersectsWith)
+            if (rBar.IntersectsWith(rBall)) {
+                MoveY = -MoveY;
+                ret = 2;
+            }
 
-            return true;
+            PosX += MoveX;
+            PosY += MoveY++;
+
+
+            //下に落下したか
+            if (PosY > 600)
+                ret = 1;
+
+
+            //移動完了
+            return ret;
+
+
         }
 
         public override bool Move(Keys direction) {
