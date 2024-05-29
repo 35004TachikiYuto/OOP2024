@@ -33,9 +33,19 @@ namespace Exercise02 {
         }
 
         private static void Exercise2_2(YearMonth[] ymCollection) {
+            foreach (var ym in ymCollection) {
+                Console.WriteLine(ym);
+            }
         }
 
         private static void Exercise2_4(YearMonth[] ymCollection) {
+            foreach (var ym in ymCollection) {
+                if (ym.Is21Century == true) {
+                    Console.WriteLine(ym.Year+"年");
+                    break;
+                }
+                
+            }
         }
 
         private static void Exercise2_5(YearMonth[] ymCollection) {

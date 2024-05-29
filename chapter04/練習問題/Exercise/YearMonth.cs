@@ -25,15 +25,16 @@ namespace Exercise01 {
         //4.1.3
         public YearMonth AddOneMonth() {
             if (Month == 12) {
-                return new YearMonth(Year, 1);
+                return new YearMonth(Year + 1, 1);
             } else {
-                return new YearMonth(Year, Month++);
+                return new YearMonth(Year, Month + 1);
             }
         }
 
         //4.1.4
         public override string ToString() {
-            return Year + "年" + Month + "月";
+            //return Year + "年" + Month + "月";
+            return $"{Year}年{Month}月";
         }
     }
 }
