@@ -47,20 +47,24 @@ namespace Exercise02 {
             return null;
         }
         private static void Exercise2_4(YearMonth[] ymCollection) {
-            YearMonth ym = FindFrist21c(ymCollection);
+            /*var ym = FindFrist21c(ymCollection);
             if (ym == null) {
                 Console.WriteLine("21世紀のデータはありません");
             } else {
                 Console.WriteLine(ym);
-            }
+            }*/
+            var ym = FindFrist21c(ymCollection);
+
+            Console.WriteLine(ym == null ? "21世紀のデータはありません" : ym.ToString());
         }
 
         private static void Exercise2_5(YearMonth[] ymCollection) {
-            var ym = new YearMonth[ymCollection.Length];
+            /*var ym = new YearMonth[ymCollection.Length];
             for (int i = 0; i < ymCollection.Length; i++) {
                 ym[i] = ymCollection[i].AddOneMonth();
-            }
-            foreach (var yms in ym) {
+            }*/
+            var array = ymCollection.Select(ym=> ym.AddOneMonth()).ToArray();
+            foreach (var yms in array) {
                 Console.WriteLine(yms);
             }
         }
