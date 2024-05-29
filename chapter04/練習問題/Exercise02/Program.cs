@@ -14,8 +14,8 @@ namespace Exercise02 {
                  new YearMonth(1980, 1),
                  new YearMonth(1990, 4),
                  new YearMonth(2000, 7),
-                 new YearMonth(2010, 9),
-                 new YearMonth(2020, 12),
+                 new YearMonth(2000, 9),
+                 new YearMonth(2000, 12),
             };
 
             // 4.2.2
@@ -37,18 +37,32 @@ namespace Exercise02 {
                 Console.WriteLine(ym);
             }
         }
-
-        private static void Exercise2_4(YearMonth[] ymCollection) {
-            foreach (var ym in ymCollection) {
-                if (ym.Is21Century == true) {
-                    Console.WriteLine(ym.Year+"年");
-                    break;
+        //4.2.3(4.2.4で呼び出されるメソッド)
+        static YearMonth FindFrist21c(YearMonth[] yms) {
+            foreach (var ym in yms) {
+                if (ym.Is21Century) {
+                    return ym;
                 }
-                
+            }
+            return null;
+        }
+        private static void Exercise2_4(YearMonth[] ymCollection) {
+            YearMonth ym = FindFrist21c(ymCollection);
+            if (ym == null) {
+                Console.WriteLine("21世紀のデータはありません");
+            } else {
+                Console.WriteLine(ym);
             }
         }
 
         private static void Exercise2_5(YearMonth[] ymCollection) {
+            var ym = new YearMonth[ymCollection.Length];
+            for (int i = 0; i < ymCollection.Length; i++) {
+                ym[i] = ymCollection[i].AddOneMonth();
+            }
+            foreach (var yms in ym) {
+                Console.WriteLine(yms);
+            }
         }
     }
 }
