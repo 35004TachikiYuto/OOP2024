@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Exercise03 {
     internal class Program {
         static void Main(string[] args) {
             var text = "Jackdaws love my big sphinx of quartz";
+            var text2 = "Jackdaws,love,my,big sphinx-of_quartz";
 
             Exercise3_1(text);
             Console.WriteLine("-----");
@@ -22,38 +24,49 @@ namespace Exercise03 {
             Console.WriteLine("-----");
 
             Exercise3_5(text);
+            Console.WriteLine("-----");
+
+            Exercise3_6(text2);
         }
 
         private static void Exercise3_1(string text) {
-            int Count = text.Where(s => s == ' ').Count();
-            Console.WriteLine("空白の数"+Count);
+            var spaces = text.Where(c => c == ' ').Count();
+            Console.WriteLine("空白の数:{0}", spaces);
         }
 
         private static void Exercise3_2(string text) {
-            string s =  text.Replace("big", "small");
-            Console.WriteLine(s);
+            string replaced = text.Replace("big", "small");
+            Console.WriteLine(replaced);
         }
 
         private static void Exercise3_3(string text) {
-            string[] words = text.Split(' ');
-            Console.WriteLine("単語の数"+words.Length);
+            int count = text.Split(' ').Length;
+            Console.WriteLine("単語数:{0}", count);
         }
 
         private static void Exercise3_4(string text) {
-            string[] words = text.Split(' ');
-            foreach(var s in words) {
-                if (s.Count() <= 4)
-                    Console.WriteLine(s);
+            var words = text.Split(' ').Where(s => s.Length <= 4);
+            foreach (var word in words) {
+                Console.WriteLine(word);
             }
         }
 
         private static void Exercise3_5(string text) {
             string[] words = text.Split(' ');
+            StringBuilder sb = new StringBuilder();
             foreach (var s in words) {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(s+' ');
-                Console.Write(sb.ToString());
+                sb.Append(s + ' ');
             }
+            Console.WriteLine(sb);
+        }
+
+        private static void Exercise3_6(string text2) {
+            var words = text2.Split(' ', ',', '-', '_');
+            StringBuilder sb = new StringBuilder();
+            foreach (var s in words) {
+                sb.Append(s + ' ');
+            }
+            Console.WriteLine(sb);
         }
 
     }
