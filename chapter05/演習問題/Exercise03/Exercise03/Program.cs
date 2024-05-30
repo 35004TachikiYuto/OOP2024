@@ -53,22 +53,26 @@ namespace Exercise03 {
 
         private static void Exercise3_5(string text) {
             var array = text.Split(' ').ToArray();
-            var sb = new StringBuilder();
-            foreach (var word in array) {
-                sb.Append(word);
-                sb.Append(' ');
+            if (array.Length > 0) {
+                var sb = new StringBuilder(array[0]);
+                foreach (var word in array.Skip(1)) {
+                    sb.Append(word);
+                    sb.Append(' ');
+                }
+                Console.WriteLine(sb);
             }
-            Console.WriteLine(sb);
         }
-
         private static void Exercise3_6(string text2) {
             var array = text2.Split(new[] { ' ', ',', '-', '_' }).ToArray();
-            var sb = new StringBuilder();
-            foreach (var word in array) {
-                sb.Append(word);
-                sb.Append(' ');
+
+            if (array.Length > 0) {
+                var sb = new StringBuilder(array[0]);
+                foreach (var word in array.Skip(1)) {
+                    sb.Append(word);
+                    sb.Append(' ');
+                }
+                Console.WriteLine(sb);
             }
-            Console.WriteLine(sb); 
         }
 
     }
