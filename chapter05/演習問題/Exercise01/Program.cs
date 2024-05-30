@@ -11,7 +11,7 @@ namespace Exercise01 {
             string str1 = Console.ReadLine();
             Console.Write("数値2を入力:");
             string str2 = Console.ReadLine();
-            if(String.Compare(str1,str2,true) == 0 ) {
+            if (string.Compare(str1, str2, ignoreCase: true) == 0) {
                 Console.WriteLine("等しい");
             } else {
                 Console.WriteLine("等しくない");

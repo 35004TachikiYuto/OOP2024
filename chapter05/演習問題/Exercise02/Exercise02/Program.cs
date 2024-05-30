@@ -11,8 +11,11 @@ namespace Exercise02 {
             var str = Console.ReadLine();
             int num;
             if(int.TryParse(str,out num)) {
-                string formattedNum = String.Format("{0:N0}", num);
-                Console.WriteLine(formattedNum);
+                //string formattedNum = String.Format("{0:N0}", num);
+                //Console.WriteLine(formattedNum);
+                Console.WriteLine($"{num:##}");
+            } else {
+                Console.WriteLine("数字文字列ではありません");
             }
         }
     }
