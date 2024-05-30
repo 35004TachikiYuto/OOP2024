@@ -22,9 +22,9 @@ namespace Exercise04 {
         }
 
         //できたら以下のメソッドを完成させて利用する
-        static string ToJapanese(string key) {
+        //static string ToJapanese(string key) {
 
 
-        }
+       // }
     }
 }
