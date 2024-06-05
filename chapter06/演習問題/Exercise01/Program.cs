@@ -25,7 +25,7 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_1(int[] numbers) {
-            int max = numbers.Max();
+            var max = numbers.Max();
             Console.WriteLine("最大値：" + max);
         }
 
@@ -35,11 +35,12 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_3(int[] numbers) {
-            
+            var strings = numbers.Select(x => x.ToString("0000")).ToList();
+            strings.ForEach(x => Console.WriteLine(x));
         }
 
         private static void Exercise1_4(int[] numbers) {
-
+           
         }
 
         private static void Exercise1_5(int[] numbers) {
