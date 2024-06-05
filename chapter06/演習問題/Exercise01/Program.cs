@@ -30,11 +30,12 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_2(int[] numbers) {
- 
+            var num = numbers.Skip(numbers.Length - 2).ToList(); 
+            num.ForEach(x => Console.WriteLine(x));
         }
 
         private static void Exercise1_3(int[] numbers) {
-           
+            
         }
 
         private static void Exercise1_4(int[] numbers) {
