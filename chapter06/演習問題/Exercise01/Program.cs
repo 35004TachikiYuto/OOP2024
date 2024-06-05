@@ -40,7 +40,8 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_4(int[] numbers) {
-           
+            var num = numbers.OrderBy(x => x).Take(3).ToList();
+            num.ForEach(x => Console.WriteLine(x));
         }
 
         private static void Exercise1_5(int[] numbers) {
