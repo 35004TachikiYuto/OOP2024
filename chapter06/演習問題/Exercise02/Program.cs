@@ -65,13 +65,16 @@ namespace Exercise02 {
         }
 
         private static void Exercise2_4(List<Book> books) {
-            
+            var book = books.Where(n => n.Price >= 4000).FirstOrDefault();
+            Console.WriteLine(book.Title);
         }
 
         private static void Exercise2_5(List<Book> books) {
+           
         }
 
         private static void Exercise2_6(List<Book> books) {
+            
         }
 
         private static void Exercise2_7(List<Book> books) {
