@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,8 +50,10 @@ namespace Exercise02 {
         }
 
         private static void Exercise2_1(List<Book> books) {
-            var book = books.Where(x => x.Title == "ワンダフル・C#ライフ").ToList();
-            book.ForEach(b => Console.WriteLine("価格:{0} ページ数：{1}", b.Price,b.Pages));
+            var book = books.Where(x => x.Title == "ワンダフル・C#ライフ");
+            foreach (var b in book) {
+                Console.WriteLine("{0}価格:{1} ページ数：{2}", b.Title, b.Price, b.Pages);
+             }
         }
 
         private static void Exercise2_2(List<Book> books) {
@@ -76,10 +79,18 @@ namespace Exercise02 {
         }
 
         private static void Exercise2_6(List<Book> books) {
-            
+            var book = books.Where(n => n.Pages >= 400);
+            var num = book.OrderByDescending(b => b.Price);
+            foreach (var page in num) {
+                Console.WriteLine("タイトル：{0} 価格：{1}", page.Title, page.Price);
+            }
         }
 
         private static void Exercise2_7(List<Book> books) {
+            var book = books.Where(n => n.Title.Contains("C#")).Where(n => n.Pages <= 500);
+            foreach (var b in book){
+                Console.WriteLine("タイトル："+b.Title);
+            }
         }
     }
 
