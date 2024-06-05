@@ -62,6 +62,7 @@ namespace Exercise03 {
                 Console.WriteLine(sb);
             }
         }
+
         private static void Exercise3_6(string text2) {
             var array = text2.Split(new[] { ' ', ',', '-', '_' }).ToArray();
 
