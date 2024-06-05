@@ -45,7 +45,11 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_5(int[] numbers) {
-
+            var num = numbers.Distinct().ToList();
+            var nums = num.Where(x => x > 10).Count();
+            Console.WriteLine(nums);
+            
+            
         }
     }
 
