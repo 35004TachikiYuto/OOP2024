@@ -54,13 +54,16 @@ namespace Exercise02 {
         }
 
         private static void Exercise2_2(List<Book> books) {
-            
+            var book = books.Count(n => n.Title.Contains("C#"));
+            Console.WriteLine(book);
         }
 
         private static void Exercise2_3(List<Book> books) {
+          
         }
 
         private static void Exercise2_4(List<Book> books) {
+            
         }
 
         private static void Exercise2_5(List<Book> books) {
