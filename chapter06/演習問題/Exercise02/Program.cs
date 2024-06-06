@@ -53,43 +53,43 @@ namespace Exercise02 {
             var book = books.Where(x => x.Title == "ワンダフル・C#ライフ");
             foreach (var b in book) {
                 Console.WriteLine("{0}価格:{1} ページ数：{2}", b.Title, b.Price, b.Pages);
-             }
+            }
         }
 
         private static void Exercise2_2(List<Book> books) {
-            var book = books.Count(n => n.Title.Contains("C#"));
-            Console.WriteLine(book);
+            var count = books.Count(n => n.Title.Contains("C#"));
+            Console.WriteLine(count);
         }
 
         private static void Exercise2_3(List<Book> books) {
-            var book = books.Where(n => n.Title.Contains("C#")).ToArray();
-            var avg = book.Average(b => b.Pages);
-            Console.WriteLine(avg);
+            var average = books.Where(n => n.Title.Contains("C#"))
+                            .Average(b => b.Pages);
+            Console.WriteLine(average);
         }
 
         private static void Exercise2_4(List<Book> books) {
-            var book = books.Where(n => n.Price >= 4000).FirstOrDefault();
-            Console.WriteLine(book.Title);
+            var book = books.FirstOrDefault(b => b.Price >= 4000);
+            if (book != null)
+                Console.WriteLine("タイトル："+book.Title);
         }
 
         private static void Exercise2_5(List<Book> books) {
-            var book = books.Where(n => n.Price < 4000);
-            var max = book.Max(b => b.Pages);
-            Console.WriteLine("ページ数：" + max);
+            var pages = books.Where(b => b.Price < 4000)
+                                .Max(b => b.Pages);
+            Console.WriteLine("ページ数：" + pages);
         }
 
         private static void Exercise2_6(List<Book> books) {
-            var book = books.Where(n => n.Pages >= 400);
-            var num = book.OrderByDescending(b => b.Price);
-            foreach (var page in num) {
+            var seleted = books.Where(b => b.Pages >= 400).OrderByDescending(b=>b.Price);
+            foreach (var page in seleted) {
                 Console.WriteLine("タイトル：{0} 価格：{1}", page.Title, page.Price);
             }
         }
 
         private static void Exercise2_7(List<Book> books) {
-            var book = books.Where(n => n.Title.Contains("C#")).Where(n => n.Pages <= 500);
-            foreach (var b in book){
-                Console.WriteLine("タイトル："+b.Title);
+            var seleted = books.Where(b => b.Title.Contains("C#")&& b.Pages<=500);
+            foreach (var b in seleted) {
+                Console.WriteLine("タイトル：" + b.Title);
             }
         }
     }
