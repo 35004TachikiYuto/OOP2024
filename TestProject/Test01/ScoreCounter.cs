@@ -19,21 +19,25 @@ namespace Test01 {
                 var items = line.Split(',');
                 Student sale = new Student {
                     Name = items[0],
-                    ProductCategory = items[1],
-                    Amount = int.Parse(items[2]),
+                    Subject = items[1],
+                    Score = int.Parse(items[2]),
                 };
                 sales.Add(sale);
             }
             return sales;
-
-
-
-
         }
 
         //メソッドの概要： 
         public IDictionary<string, int> GetPerStudentScore() {
-
+            var dict = new Dictionary<string, int>();
+            foreach (var sale in _score) {
+                if (dict.ContainsKey(sale.Subject)) {
+                    dict[sale.Subject] += sale.Score;
+                } else {
+                    dict[sale.Subject] = sale.Score;
+                }
+            }
+            return dict;
 
 
 
