@@ -35,8 +35,8 @@ namespace Section04 {
             Console.WriteLine("-------------");
 
             //7.2.4
-            var abbers = abbrs.Where(x => x.Key.Length == 3).ToList();
-            foreach (var item in abbers){
+            //IEnumerable<>を実装したので、LINQが使える
+            foreach (var item in abbrs.Where(x => x.Key.Length == 3).ToList()){
                 Console.WriteLine("{0}={1}",item.Key,item.Value);
             }
 
