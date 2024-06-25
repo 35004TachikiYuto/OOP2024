@@ -21,15 +21,16 @@ namespace Section01 {
             //DayOfWeek dayOfWeek = Birthday.DayOfWeek;
             var culture = new CultureInfo("ja-JP");
             culture.DateTimeFormat.Calendar = new JapaneseCalendar();
-            var str =Birthday.ToString("ggyy年M月d日dddd",culture);
-            
+            var str = Birthday.ToString("ggyy年M月d日dddd", culture);
+
             //あなたは平成〇〇年〇月〇日〇曜日に生まれました。
-            Console.WriteLine("貴方は" +str+"に生まれました。");
+            Console.WriteLine("あなたは" + str + "に生まれました。");
 
             //あなたは生まれてから今日で○○○○日メデス
             var today = DateTime.Today;
             TimeSpan diff = Birthday - today;
-            Console.WriteLine("あなたは生まれてから今日で{0}日目です。",diff.Days);
+            Console.WriteLine("あなたは生まれてから今日で{0}日目です。", diff.Days);
+
             /*switch (dayOfWeek) {
                 case DayOfWeek.Monday:
                     Console.WriteLine("あなたは月曜日に生まれました。");
