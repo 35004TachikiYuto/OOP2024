@@ -26,6 +26,7 @@
             btEx8_1 = new Button();
             tbDisp = new TextBox();
             btEx8_2 = new Button();
+            button1 = new Button();
             SuspendLayout();
             // 
             // btEx8_1
@@ -56,11 +57,22 @@
             btEx8_2.UseVisualStyleBackColor = true;
             btEx8_2.Click += button1_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(65, 138);
+            button1.Name = "button1";
+            button1.Size = new Size(131, 42);
+            button1.TabIndex = 3;
+            button1.Text = "問題8.3";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_1;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button1);
             Controls.Add(btEx8_2);
             Controls.Add(tbDisp);
             Controls.Add(btEx8_1);
@@ -75,5 +87,6 @@
         private Button btEx8_1;
         private TextBox tbDisp;
         private Button btEx8_2;
+        private Button button1;
     }
 }
