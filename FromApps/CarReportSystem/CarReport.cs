@@ -14,7 +14,7 @@ namespace CarReportSystem {
             輸入車,
             その他,
         }
-        public DateTime DAte { get; set; }//日付
+        public DateTime Date { get; set; }//日付
         public string Auther { get; set; } = string.Empty;//記録者
         public MakerGroup Maker { get; set; }//メーカー
         public string CarName { get; set; } = string.Empty;//車名
