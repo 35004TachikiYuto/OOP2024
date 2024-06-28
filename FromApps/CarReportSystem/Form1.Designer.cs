@@ -32,7 +32,7 @@
             label5 = new Label();
             cbAuther = new ComboBox();
             rbToyota = new RadioButton();
-            groupBox1 = new GroupBox();
+            MakerBox = new GroupBox();
             rbOther = new RadioButton();
             rbImport = new RadioButton();
             rbHonda = new RadioButton();
@@ -50,7 +50,7 @@
             dgvCarReport = new DataGridView();
             btReportOpen = new Button();
             btReportSave = new Button();
-            groupBox1.SuspendLayout();
+            MakerBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCarReport).BeginInit();
             SuspendLayout();
@@ -143,19 +143,19 @@
             rbToyota.Text = "トヨタ";
             rbToyota.UseVisualStyleBackColor = true;
             // 
-            // groupBox1
+            // MakerBox
             // 
-            groupBox1.Controls.Add(rbOther);
-            groupBox1.Controls.Add(rbImport);
-            groupBox1.Controls.Add(rbHonda);
-            groupBox1.Controls.Add(rbSubaru);
-            groupBox1.Controls.Add(rbNissan);
-            groupBox1.Controls.Add(rbToyota);
-            groupBox1.Location = new Point(120, 115);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(376, 35);
-            groupBox1.TabIndex = 4;
-            groupBox1.TabStop = false;
+            MakerBox.Controls.Add(rbOther);
+            MakerBox.Controls.Add(rbImport);
+            MakerBox.Controls.Add(rbHonda);
+            MakerBox.Controls.Add(rbSubaru);
+            MakerBox.Controls.Add(rbNissan);
+            MakerBox.Controls.Add(rbToyota);
+            MakerBox.Location = new Point(120, 115);
+            MakerBox.Name = "MakerBox";
+            MakerBox.Size = new Size(376, 35);
+            MakerBox.TabIndex = 4;
+            MakerBox.TabStop = false;
             // 
             // rbOther
             // 
@@ -350,7 +350,7 @@
             Controls.Add(btPicOpen);
             Controls.Add(label6);
             Controls.Add(tbReport);
-            Controls.Add(groupBox1);
+            Controls.Add(MakerBox);
             Controls.Add(cbAuther);
             Controls.Add(cbCarName);
             Controls.Add(dtpDate);
@@ -362,8 +362,8 @@
             Controls.Add(label1);
             Name = "Form1";
             Text = "試乗レポート管理システム";
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
+            MakerBox.ResumeLayout(false);
+            MakerBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbPicture).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvCarReport).EndInit();
             ResumeLayout(false);
@@ -381,7 +381,7 @@
         private Label label5;
         private ComboBox cbAuther;
         private RadioButton rbToyota;
-        private GroupBox groupBox1;
+        private GroupBox MakerBox;
         private RadioButton rbOther;
         private RadioButton rbImport;
         private RadioButton rbHonda;
