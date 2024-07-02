@@ -91,5 +91,14 @@ namespace CarReportSystem {
 
             }
         }
+
+        private void btDeleteReport_Click(object sender, EventArgs e) {
+            if (dgvCarReport.CurrentRow != null) {
+                listCarReports.RemoveAt(dgvCarReport.CurrentRow.Index);
+            }
+        }
+        private void btModifyReport_Click(object sender, EventArgs e) {
+
+        }
     }
 }

@@ -286,6 +286,7 @@
             btModifyReport.TabIndex = 7;
             btModifyReport.Text = "修正";
             btModifyReport.UseVisualStyleBackColor = true;
+            btModifyReport.Click += btModifyReport_Click;
             // 
             // btDeleteReport
             // 
@@ -296,6 +297,7 @@
             btDeleteReport.TabIndex = 7;
             btDeleteReport.Text = "削除";
             btDeleteReport.UseVisualStyleBackColor = true;
+            btDeleteReport.Click += btDeleteReport_Click;
             // 
             // label7
             // 
