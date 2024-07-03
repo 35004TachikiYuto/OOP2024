@@ -13,17 +13,19 @@ namespace CarReportSystem {
         }
 
         private void btAddReport_Click(object sender, EventArgs e) {
-            CarReport carReport = new CarReport {
-                Date = dtpDate.Value,
-                Author = cbAuthor.Text,
-                Maker = GetRadioButtonMaker(),
-                CarName = cbCarName.Text,
-                Report = tbReport.Text,
-                Picture = pbPicture.Image,
-        };
-            listCarReports.Add(carReport);
-            setcbAuthor(carReport.Author);
-            setCbCarName(carReport.CarName);
+            if (cbAuthor.Text == "" || cbCarName.Text == "") return;
+                CarReport carReport = new CarReport {
+                    Date = dtpDate.Value,
+                    Author = cbAuthor.Text,
+                    Maker = GetRadioButtonMaker(),
+                    CarName = cbCarName.Text,
+                    Report = tbReport.Text,
+                    Picture = pbPicture.Image,
+                };
+
+                listCarReports.Add(carReport);
+                setcbAuthor(carReport.Author);
+                setCbCarName(carReport.CarName);
         }
 
         //記録者の履歴をコンボボックスへ登録（重複なし）
@@ -83,19 +85,23 @@ namespace CarReportSystem {
             }
         }
 
+        //画像選択
         private void btPicOpen_Click(object sender, EventArgs e) {
             if (ofdPicFileOpen.ShowDialog() == DialogResult.OK)
                 pbPicture.Image = Image.FromFile(ofdPicFileOpen.FileName);
         }
 
+        //画像削除ボタン
         private void btPicDelete_Click(object sender, EventArgs e) {
             pbPicture.Image = null;
         }
 
+       　//
         private void Form1_Load(object sender, EventArgs e) {
             dgvCarReport.Columns["Picture"].Visible = false;
         }
 
+        //クリックで切り替え
         private void dgvCarReport_Click(object sender, EventArgs e) {
             if (dgvCarReport.CurrentRow != null) {
                 dtpDate.Value = (DateTime)dgvCarReport.CurrentRow.Cells["Date"].Value;
@@ -108,12 +114,14 @@ namespace CarReportSystem {
             }
         }
 
+        //削除ボタン
         private void btDeleteReport_Click(object sender, EventArgs e) {
             listCarReports.RemoveAt(dgvCarReport.CurrentRow.Index);
 
         }
-        private void btModifyReport_Click(object sender, EventArgs e) {
 
+        //修正ボタン
+        private void btModifyReport_Click(object sender, EventArgs e) {
 
             CarReport selectedReport = listCarReports[dgvCarReport.CurrentRow.Index];
 
@@ -124,7 +132,10 @@ namespace CarReportSystem {
             selectedReport.Report = tbReport.Text;
             selectedReport.Picture = pbPicture.Image;
 
+
             dgvCarReport.Refresh();//データグリッドビューの更新
+
+          
         }
     }
 }
