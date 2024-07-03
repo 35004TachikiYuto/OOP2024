@@ -13,7 +13,7 @@ namespace CarReportSystem {
         }
 
         private void btAddReport_Click(object sender, EventArgs e) {
-            if (cbAuthor.Text == "" || cbCarName.Text == "") return;
+            if (cbAuthor.Text != "" || cbCarName.Text != "") {
                 CarReport carReport = new CarReport {
                     Date = dtpDate.Value,
                     Author = cbAuthor.Text,
@@ -26,14 +26,25 @@ namespace CarReportSystem {
                 listCarReports.Add(carReport);
                 setcbAuthor(carReport.Author);
                 setCbCarName(carReport.CarName);
+                
+                
+
+                tslbMessage.Text = "";
+            } else {
+                // MessageBox.Show("記録者、車名を入力しなさい", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tslbMessage.Text = "記録者、車名を入力しなさい";
+            }
+
         }
+
+        
 
         //記録者の履歴をコンボボックスへ登録（重複なし）
         private void setcbAuthor(string author) {
             if (!cbAuthor.Items.Contains(author)) {
                 cbAuthor.Items.Add(author);
             }
-        
+
         }
 
         //車名の履歴をコンボボックスへ登録（重複なし）
@@ -96,7 +107,7 @@ namespace CarReportSystem {
             pbPicture.Image = null;
         }
 
-       　//
+        //
         private void Form1_Load(object sender, EventArgs e) {
             dgvCarReport.Columns["Picture"].Visible = false;
         }
@@ -116,26 +127,34 @@ namespace CarReportSystem {
 
         //削除ボタン
         private void btDeleteReport_Click(object sender, EventArgs e) {
-            listCarReports.RemoveAt(dgvCarReport.CurrentRow.Index);
-
+            if (dgvCarReport.CurrentRow != null) {
+                listCarReports.RemoveAt(dgvCarReport.CurrentRow.Index);
+                tslbMessage.Text = "";
+            } else {
+                tslbMessage.Text = "削除するデータがありません";
+            }
         }
 
         //修正ボタン
         private void btModifyReport_Click(object sender, EventArgs e) {
+            if (dgvCarReport.CurrentRow != null) {
+                CarReport selectedReport = listCarReports[dgvCarReport.CurrentRow.Index];
 
-            CarReport selectedReport = listCarReports[dgvCarReport.CurrentRow.Index];
+                selectedReport.Date = dtpDate.Value;
+                selectedReport.Author = cbAuthor.Text;
+                selectedReport.Maker = GetRadioButtonMaker();
+                selectedReport.CarName = cbCarName.Text;
+                selectedReport.Report = tbReport.Text;
+                selectedReport.Picture = pbPicture.Image;
 
-            selectedReport.Date = dtpDate.Value;
-            selectedReport.Author = cbAuthor.Text;
-            selectedReport.Maker = GetRadioButtonMaker();
-            selectedReport.CarName = cbCarName.Text;
-            selectedReport.Report = tbReport.Text;
-            selectedReport.Picture = pbPicture.Image;
+                dgvCarReport.Refresh();//データグリッドビューの更新
 
+                tslbMessage.Text = "";
 
-            dgvCarReport.Refresh();//データグリッドビューの更新
-
-          
+            } else {
+                tslbMessage.Text = "修正するデータがありません";
+            }
         }
+
     }
 }
