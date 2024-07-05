@@ -395,7 +395,10 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "Form1";
+            SizeGripStyle = SizeGripStyle.Hide;
             Text = "試乗レポート管理システム";
             Load += Form1_Load;
             MakerBox.ResumeLayout(false);

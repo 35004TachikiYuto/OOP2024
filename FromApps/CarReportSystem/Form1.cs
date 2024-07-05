@@ -165,7 +165,7 @@ namespace CarReportSystem {
 
         //èCê≥É{É^Éì
         private void btModifyReport_Click(object sender, EventArgs e) {
-            if (dgvCarReport.CurrentRow != null) {
+            if ((dgvCarReport.CurrentRow != null) || (!dgvCarReport.CurrentRow.Selected)){
                 CarReport selectedReport = listCarReports[dgvCarReport.CurrentRow.Index];
 
                 selectedReport.Date = dtpDate.Value;
