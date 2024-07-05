@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace CarReportSystem {
     public partial class Form1 : Form {
@@ -42,7 +43,7 @@ namespace CarReportSystem {
         private void inputItemsClear() {
             dtpDate.Value = DateTime.Now;
             cbAuthor.Text = "";
-            DeleteRadioButtonMaker();
+            setRadioButtonMaker(CarReport.MakerGroup.なし);
             cbCarName.Text = "";
             tbReport.Text = "";
             pbPicture.Image = null;
@@ -81,22 +82,16 @@ namespace CarReportSystem {
             else return CarReport.MakerGroup.その他;
         }
 
-        private void DeleteRadioButtonMaker() {
-            rbToyota.Checked = false;
-            rbNissan.Checked = false;
-            rbSubaru.Checked = false;
-            rbHonda.Checked = false;
-            rbImport.Checked = false;
-            rbOther.Checked = false;
 
-
-        }
 
         //指定したラジオボタンのメーカーをセット
         private void setRadioButtonMaker(CarReport.MakerGroup targetMaker) {
 
 
             switch (targetMaker) {
+                case CarReport.MakerGroup.なし:
+                    rbAllClear();
+                    break;
                 case CarReport.MakerGroup.トヨタ:
                     rbToyota.Checked = true;
                     break;
@@ -118,6 +113,17 @@ namespace CarReportSystem {
                 default:
                     break;
             }
+        }
+
+        private void rbAllClear() {
+            rbToyota.Checked = false;
+            rbNissan.Checked = false;
+            rbSubaru.Checked = false;
+            rbHonda.Checked = false;
+            rbImport.Checked = false;
+            rbOther.Checked = false;
+
+
         }
 
         //画像選択
@@ -153,7 +159,7 @@ namespace CarReportSystem {
 
         //削除ボタン
         private void btDeleteReport_Click(object sender, EventArgs e) {
-            if ((dgvCarReport.CurrentRow != null) || (!dgvCarReport.CurrentRow.Selected)) {
+            if (dgvCarReport.CurrentRow != null) {
 
                 listCarReports.RemoveAt(dgvCarReport.CurrentRow.Index);
                 dgvCarReport.ClearSelection();//セレクションを外す
@@ -165,7 +171,7 @@ namespace CarReportSystem {
 
         //修正ボタン
         private void btModifyReport_Click(object sender, EventArgs e) {
-            if ((dgvCarReport.CurrentRow != null) || (!dgvCarReport.CurrentRow.Selected)){
+            if (dgvCarReport.CurrentRow != null) {
                 CarReport selectedReport = listCarReports[dgvCarReport.CurrentRow.Index];
 
                 selectedReport.Date = dtpDate.Value;
@@ -192,6 +198,47 @@ namespace CarReportSystem {
         //車名のテキストが編集されたら
         private void cbCarName_TextChanged(object sender, EventArgs e) {
             tslbMessage.Text = "";
+        }
+
+        //保存ボタン
+        private void btReportSave_Click(object sender, EventArgs e) {
+            if (sfdReportFileSave.ShowDialog() == DialogResult.OK) {
+                try {
+                    //バイナリ形式でシリアル化
+#pragma warning disable SYSLIB0011 // 型またはメンバーが旧型式です
+                    var bf = new BinaryFormatter();
+#pragma warning restore SYSLIB0011 // 型またはメンバーが旧型式です
+                    using (FileStream fs = File.Open(sfdReportFileSave.FileName, FileMode.Create)) {
+
+                        bf.Serialize(fs, listCarReports);
+                    }
+                }
+                catch (Exception) {
+
+                    throw;
+                }
+            }
+        }
+
+        private void btReportOpen_Click(object sender, EventArgs e) {
+            if (ofdReportFileOpen.ShowDialog() == DialogResult.OK) {
+                try {
+
+#pragma warning disable SYSLIB0011 // 型またはメンバーが旧型式です
+                    var bf = new BinaryFormatter();
+#pragma warning restore SYSLIB0011 // 型またはメンバーが旧型式です
+
+                    using (FileStream fs = File.Open(ofdReportFileOpen.FileName, FileMode.Open, FileAccess.Read)) {
+
+                        listCarReports = (BindingList<CarReport>)bf.Deserialize(fs);
+                        dgvCarReport.DataSource = listCarReports;
+                    }
+                }
+                catch (Exception) {
+
+                    throw;
+                }
+            }
         }
     }
 }
