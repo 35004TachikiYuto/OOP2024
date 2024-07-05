@@ -26,18 +26,29 @@ namespace CarReportSystem {
                 listCarReports.Add(carReport);
                 setcbAuthor(carReport.Author);
                 setCbCarName(carReport.CarName);
-                
-                
+
+                dgvCarReport.ClearSelection();//セレクションを外す
+                inputItemsClear();
 
                 tslbMessage.Text = "";
             } else {
                 // MessageBox.Show("記録者、車名を入力しなさい", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                tslbMessage.Text = "記録者、車名を入力しなさい";
+                tslbMessage.Text = "記録者または車名が未入力です";
+
             }
 
         }
 
-        
+        private void inputItemsClear() {
+            dtpDate.Value = DateTime.Now;
+            cbAuthor.Text = "";
+            DeleteRadioButtonMaker();
+            cbCarName.Text = "";
+            tbReport.Text = "";
+            pbPicture.Image = null;
+        }
+
+
 
         //記録者の履歴をコンボボックスへ登録（重複なし）
         private void setcbAuthor(string author) {
@@ -70,8 +81,21 @@ namespace CarReportSystem {
             else return CarReport.MakerGroup.その他;
         }
 
+        private void DeleteRadioButtonMaker() {
+            rbToyota.Checked = false;
+            rbNissan.Checked = false;
+            rbSubaru.Checked = false;
+            rbHonda.Checked = false;
+            rbImport.Checked = false;
+            rbOther.Checked = false;
+
+
+        }
+
         //指定したラジオボタンのメーカーをセット
         private void setRadioButtonMaker(CarReport.MakerGroup targetMaker) {
+
+
             switch (targetMaker) {
                 case CarReport.MakerGroup.トヨタ:
                     rbToyota.Checked = true;
@@ -105,6 +129,7 @@ namespace CarReportSystem {
         //画像削除ボタン
         private void btPicDelete_Click(object sender, EventArgs e) {
             pbPicture.Image = null;
+            
         }
 
         //
@@ -129,6 +154,7 @@ namespace CarReportSystem {
         private void btDeleteReport_Click(object sender, EventArgs e) {
             if (dgvCarReport.CurrentRow != null) {
                 listCarReports.RemoveAt(dgvCarReport.CurrentRow.Index);
+                dgvCarReport.ClearSelection();//セレクションを外す
                 tslbMessage.Text = "";
             } else {
                 tslbMessage.Text = "削除するデータがありません";
@@ -156,5 +182,14 @@ namespace CarReportSystem {
             }
         }
 
+        //記録者のテキストが編集されたら
+        private void cbAuthor_TextChanged(object sender, EventArgs e) {
+            tslbMessage.Text = "";
+        }
+
+        //車名のテキストが編集されたら
+        private void cbCarName_TextChanged(object sender, EventArgs e) {
+            tslbMessage.Text = "";
+        }
     }
 }
