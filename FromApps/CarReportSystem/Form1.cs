@@ -129,30 +129,32 @@ namespace CarReportSystem {
         //画像削除ボタン
         private void btPicDelete_Click(object sender, EventArgs e) {
             pbPicture.Image = null;
-            
+
         }
 
         //
         private void Form1_Load(object sender, EventArgs e) {
-            dgvCarReport.Columns["Picture"].Visible = false;
+            dgvCarReport.Columns["Picture"].Visible = false;//画像表示しない
         }
 
         //クリックで切り替え
         private void dgvCarReport_Click(object sender, EventArgs e) {
-            if (dgvCarReport.CurrentRow != null) {
-                dtpDate.Value = (DateTime)dgvCarReport.CurrentRow.Cells["Date"].Value;
-                cbAuthor.Text = (string)dgvCarReport.CurrentRow.Cells["Author"].Value;
-                setRadioButtonMaker((CarReport.MakerGroup)dgvCarReport.CurrentRow.Cells["Maker"].Value);
-                cbCarName.Text = (string)dgvCarReport.CurrentRow.Cells["CarName"].Value;
-                tbReport.Text = (string)dgvCarReport.CurrentRow.Cells["Report"].Value;
-                pbPicture.Image = (Image)dgvCarReport.CurrentRow.Cells["Picture"].Value;
+            if ((dgvCarReport.Rows.Count == 0) || (!dgvCarReport.CurrentRow.Selected)) return;
 
-            }
+            dtpDate.Value = (DateTime)dgvCarReport.CurrentRow.Cells["Date"].Value;
+            cbAuthor.Text = (string)dgvCarReport.CurrentRow.Cells["Author"].Value;
+            setRadioButtonMaker((CarReport.MakerGroup)dgvCarReport.CurrentRow.Cells["Maker"].Value);
+            cbCarName.Text = (string)dgvCarReport.CurrentRow.Cells["CarName"].Value;
+            tbReport.Text = (string)dgvCarReport.CurrentRow.Cells["Report"].Value;
+            pbPicture.Image = (Image)dgvCarReport.CurrentRow.Cells["Picture"].Value;
+
+
         }
 
         //削除ボタン
         private void btDeleteReport_Click(object sender, EventArgs e) {
-            if (dgvCarReport.CurrentRow != null) {
+            if ((dgvCarReport.CurrentRow != null) || (!dgvCarReport.CurrentRow.Selected)) {
+
                 listCarReports.RemoveAt(dgvCarReport.CurrentRow.Index);
                 dgvCarReport.ClearSelection();//セレクションを外す
                 tslbMessage.Text = "";
