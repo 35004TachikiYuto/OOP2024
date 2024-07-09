@@ -211,34 +211,45 @@ namespace CarReportSystem {
                     using (FileStream fs = File.Open(sfdReportFileSave.FileName, FileMode.Create)) {
 
                         bf.Serialize(fs, listCarReports);
+                        tslbMessage.Text = "";
                     }
                 }
                 catch (Exception) {
-
-                    throw;
+                    tslbMessage.Text = "書き込みエラー";
                 }
             }
         }
 
+        //開くボタン
         private void btReportOpen_Click(object sender, EventArgs e) {
             if (ofdReportFileOpen.ShowDialog() == DialogResult.OK) {
                 try {
-
+                    //逆シリアル化でバイナリ形式を取り込む
 #pragma warning disable SYSLIB0011 // 型またはメンバーが旧型式です
                     var bf = new BinaryFormatter();
 #pragma warning restore SYSLIB0011 // 型またはメンバーが旧型式です
-
-                    using (FileStream fs = File.Open(ofdReportFileOpen.FileName, FileMode.Open, FileAccess.Read)) {
+                    using (FileStream fs
+                        = File.Open(ofdReportFileOpen.FileName, FileMode.Open, FileAccess.Read)) {
 
                         listCarReports = (BindingList<CarReport>)bf.Deserialize(fs);
                         dgvCarReport.DataSource = listCarReports;
+                        foreach (var cbBox in listCarReports) {
+                            setcbAuthor(cbBox.Author);
+                            setCbCarName(cbBox.CarName);
+                            tslbMessage.Text = "";
+                        }
                     }
                 }
                 catch (Exception) {
-
-                    throw;
+                    tslbMessage.Text = "ファイル形式が違います";
                 }
+                dgvCarReport.ClearSelection();//セレクションを外す
             }
+        }
+
+        private void btClear_Click(object sender, EventArgs e) {
+            inputItemsClear();//入力項目をすべてクリア
+            dgvCarReport.ClearSelection();//セレクションを外す
         }
     }
 }

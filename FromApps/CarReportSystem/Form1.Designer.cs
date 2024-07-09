@@ -55,6 +55,7 @@
             tslbMessage = new ToolStripStatusLabel();
             sfdReportFileSave = new SaveFileDialog();
             ofdReportFileOpen = new OpenFileDialog();
+            btClear = new Button();
             MakerBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbPicture).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvCarReport).BeginInit();
@@ -245,22 +246,26 @@
             // 
             // btPicOpen
             // 
-            btPicOpen.Location = new Point(578, 16);
+            btPicOpen.BackColor = Color.PaleTurquoise;
+            btPicOpen.FlatStyle = FlatStyle.Flat;
+            btPicOpen.Location = new Point(576, 16);
             btPicOpen.Name = "btPicOpen";
             btPicOpen.Size = new Size(75, 23);
             btPicOpen.TabIndex = 7;
             btPicOpen.Text = "開く...";
-            btPicOpen.UseVisualStyleBackColor = true;
+            btPicOpen.UseVisualStyleBackColor = false;
             btPicOpen.Click += btPicOpen_Click;
             // 
             // btPicDelete
             // 
+            btPicDelete.BackColor = Color.FromArgb(255, 128, 128);
+            btPicDelete.FlatStyle = FlatStyle.Flat;
             btPicDelete.Location = new Point(668, 16);
             btPicDelete.Name = "btPicDelete";
             btPicDelete.Size = new Size(75, 23);
             btPicDelete.TabIndex = 7;
             btPicDelete.Text = "削除";
-            btPicDelete.UseVisualStyleBackColor = true;
+            btPicDelete.UseVisualStyleBackColor = false;
             btPicDelete.Click += btPicDelete_Click;
             // 
             // pbPicture
@@ -275,35 +280,41 @@
             // 
             // btAddReport
             // 
+            btAddReport.BackColor = Color.PaleTurquoise;
+            btAddReport.FlatStyle = FlatStyle.Flat;
             btAddReport.Font = new Font("Yu Gothic UI", 14F);
             btAddReport.Location = new Point(506, 276);
             btAddReport.Name = "btAddReport";
             btAddReport.Size = new Size(75, 37);
             btAddReport.TabIndex = 7;
             btAddReport.Text = "追加";
-            btAddReport.UseVisualStyleBackColor = true;
+            btAddReport.UseVisualStyleBackColor = false;
             btAddReport.Click += btAddReport_Click;
             // 
             // btModifyReport
             // 
+            btModifyReport.BackColor = Color.PaleTurquoise;
+            btModifyReport.FlatStyle = FlatStyle.Flat;
             btModifyReport.Font = new Font("Yu Gothic UI", 14F);
             btModifyReport.Location = new Point(587, 276);
             btModifyReport.Name = "btModifyReport";
             btModifyReport.Size = new Size(75, 37);
             btModifyReport.TabIndex = 7;
             btModifyReport.Text = "修正";
-            btModifyReport.UseVisualStyleBackColor = true;
+            btModifyReport.UseVisualStyleBackColor = false;
             btModifyReport.Click += btModifyReport_Click;
             // 
             // btDeleteReport
             // 
+            btDeleteReport.BackColor = Color.FromArgb(255, 128, 128);
+            btDeleteReport.FlatStyle = FlatStyle.Flat;
             btDeleteReport.Font = new Font("Yu Gothic UI", 14F);
             btDeleteReport.Location = new Point(668, 276);
             btDeleteReport.Name = "btDeleteReport";
             btDeleteReport.Size = new Size(75, 37);
             btDeleteReport.TabIndex = 7;
             btDeleteReport.Text = "削除";
-            btDeleteReport.UseVisualStyleBackColor = true;
+            btDeleteReport.UseVisualStyleBackColor = false;
             btDeleteReport.Click += btDeleteReport_Click;
             // 
             // label7
@@ -334,24 +345,28 @@
             // 
             // btReportOpen
             // 
+            btReportOpen.BackColor = Color.PaleTurquoise;
+            btReportOpen.FlatStyle = FlatStyle.Flat;
             btReportOpen.Font = new Font("Yu Gothic UI", 14F);
             btReportOpen.Location = new Point(32, 434);
             btReportOpen.Name = "btReportOpen";
             btReportOpen.Size = new Size(75, 36);
             btReportOpen.TabIndex = 7;
             btReportOpen.Text = "開く…";
-            btReportOpen.UseVisualStyleBackColor = true;
+            btReportOpen.UseVisualStyleBackColor = false;
             btReportOpen.Click += btReportOpen_Click;
             // 
             // btReportSave
             // 
+            btReportSave.BackColor = Color.PaleTurquoise;
+            btReportSave.FlatStyle = FlatStyle.Flat;
             btReportSave.Font = new Font("Yu Gothic UI", 14F);
             btReportSave.Location = new Point(32, 474);
             btReportSave.Name = "btReportSave";
             btReportSave.Size = new Size(75, 36);
             btReportSave.TabIndex = 7;
             btReportSave.Text = "保存…";
-            btReportSave.UseVisualStyleBackColor = true;
+            btReportSave.UseVisualStyleBackColor = false;
             btReportSave.Click += btReportSave_Click;
             // 
             // ofdPicFileOpen
@@ -376,11 +391,25 @@
             // 
             ofdReportFileOpen.FileName = "openFileDialog1";
             // 
+            // btClear
+            // 
+            btClear.BackColor = Color.PaleTurquoise;
+            btClear.FlatStyle = FlatStyle.Flat;
+            btClear.Font = new Font("Yu Gothic UI", 9F);
+            btClear.Location = new Point(404, 16);
+            btClear.Name = "btClear";
+            btClear.Size = new Size(75, 23);
+            btClear.TabIndex = 11;
+            btClear.Text = "項目クリア";
+            btClear.UseVisualStyleBackColor = false;
+            btClear.Click += btClear_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(814, 545);
+            Controls.Add(btClear);
             Controls.Add(statusStrip1);
             Controls.Add(dgvCarReport);
             Controls.Add(pbPicture);
@@ -453,5 +482,6 @@
         private ToolStripStatusLabel tslbMessage;
         private SaveFileDialog sfdReportFileSave;
         private OpenFileDialog ofdReportFileOpen;
+        private Button btClear;
     }
 }
