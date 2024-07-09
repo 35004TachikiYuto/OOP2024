@@ -141,6 +141,10 @@ namespace CarReportSystem {
         //
         private void Form1_Load(object sender, EventArgs e) {
             dgvCarReport.Columns["Picture"].Visible = false;//画像表示しない
+
+            //交互に色を設定（データグリッドビュー）
+            dgvCarReport.RowsDefaultCellStyle.BackColor = Color.AliceBlue;
+            dgvCarReport.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
         }
 
         //クリックで切り替え
@@ -200,8 +204,13 @@ namespace CarReportSystem {
             tslbMessage.Text = "";
         }
 
-        //保存ボタン
+        //保存ボタンイベントハンドラ
         private void btReportSave_Click(object sender, EventArgs e) {
+            ReportSaveFile();
+        }
+
+        //ファイルセーブ処理
+        private void ReportSaveFile() {
             if (sfdReportFileSave.ShowDialog() == DialogResult.OK) {
                 try {
                     //バイナリ形式でシリアル化
@@ -220,8 +229,13 @@ namespace CarReportSystem {
             }
         }
 
-        //開くボタン
+        //開くボタンイベントハンドラ
         private void btReportOpen_Click(object sender, EventArgs e) {
+            ReportOpenFile();
+        }
+
+        //ファイルオープン処理
+        private void ReportOpenFile() {
             if (ofdReportFileOpen.ShowDialog() == DialogResult.OK) {
                 try {
                     //逆シリアル化でバイナリ形式を取り込む
@@ -247,9 +261,23 @@ namespace CarReportSystem {
             }
         }
 
+        //ファイル保存処理
         private void btClear_Click(object sender, EventArgs e) {
             inputItemsClear();//入力項目をすべてクリア
             dgvCarReport.ClearSelection();//セレクションを外す
+        }
+
+        private void 開くToolStripMenuItem_Click(object sender, EventArgs e) {
+            ReportOpenFile();//ファイルオープン処理
+        }
+
+        private void 保存ToolStripMenuItem_Click(object sender, EventArgs e) {
+            ReportSaveFile();//ファイルセーブ処理
+        }
+
+        private void 終了ToolStripMenuItem_Click(object sender, EventArgs e) {
+            if (MessageBox.Show("本当に終了しますか？", "確認",MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                Application.Exit();
         }
     }
 }
