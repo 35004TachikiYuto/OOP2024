@@ -1,6 +1,9 @@
 using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CarReportSystem {
     public partial class Form1 : Form {
@@ -280,7 +283,13 @@ namespace CarReportSystem {
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)//終了するか確認
 
                 Application.Exit();
-        
+
+        }
+
+        private void 色設定ToolStripMenuItem_Click(object sender, EventArgs e) {
+           
+            if (cdColor.ShowDialog() == DialogResult.OK)
+                BackColor = cdColor.Color;
         }
     }
 }
