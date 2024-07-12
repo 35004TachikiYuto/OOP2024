@@ -12,16 +12,17 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace CarReportSystem {
     public partial class Form1 : Form {
 
-        //設定クラスのインスタンス作成
-        Settings settings = new Settings();
-
         //カーレポート管理用リスト
         BindingList<CarReport> listCarReports = new BindingList<CarReport>();
 
+        //設定クラスのインスタンス作成
+        Settings settings = Settings.getInstance();
+
+        //コンストラクタ
         public Form1() {
             InitializeComponent();
             dgvCarReport.DataSource = listCarReports;
-            settings = new Settings(cdColor.Color);
+            
         }
 
         private void btAddReport_Click(object sender, EventArgs e) {
