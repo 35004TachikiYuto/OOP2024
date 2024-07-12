@@ -30,6 +30,8 @@ namespace CarReportSystem {
         [System.ComponentModel.DisplayName("画像")]
         public Image? Picture { get; set; }//画像
 
-
+        public static implicit operator Color(CarReport? v) {
+            throw new NotImplementedException();
+        }
     }
 }

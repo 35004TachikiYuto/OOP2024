@@ -1,12 +1,19 @@
 using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
+using System.Runtime.Serialization.DataContracts;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization.Json;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
+using System.Xml;
+using System.Xml.Serialization;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CarReportSystem {
     public partial class Form1 : Form {
+
+        //設定クラスのインスタンス作成
+        Settings settings = new Settings();
 
         //カーレポート管理用リスト
         BindingList<CarReport> listCarReports = new BindingList<CarReport>();
@@ -14,6 +21,7 @@ namespace CarReportSystem {
         public Form1() {
             InitializeComponent();
             dgvCarReport.DataSource = listCarReports;
+            settings = new Settings(cdColor.Color);
         }
 
         private void btAddReport_Click(object sender, EventArgs e) {
@@ -148,6 +156,23 @@ namespace CarReportSystem {
             //交互に色を設定（データグリッドビュー）
             dgvCarReport.RowsDefaultCellStyle.BackColor = Color.AliceBlue;
             dgvCarReport.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
+
+            //設定ファイルを逆シリアル化して背景を設定
+            if (File.Exists("settings.xml")) {
+                try {
+                    using (var reader = XmlReader.Create("settings.xml")) {
+                        var serializer = new XmlSerializer(typeof(Settings));
+                        settings = serializer.Deserialize(reader) as Settings;
+                        BackColor = Color.FromArgb(settings.MainFormColor);
+                        settings.MainFormColor = BackColor.ToArgb();
+                    }
+                }
+                catch (Exception) {
+                    tslbMessage.Text = "色情報ファイルが破損しています";
+                }
+            }else {
+               tslbMessage.Text = "色情報ファイルがありません";
+            }
         }
 
         //クリックで切り替え
@@ -286,10 +311,25 @@ namespace CarReportSystem {
 
         }
 
+        //色設定処理
         private void 色設定ToolStripMenuItem_Click(object sender, EventArgs e) {
-           
+
             if (cdColor.ShowDialog() == DialogResult.OK)
                 BackColor = cdColor.Color;
+            settings.MainFormColor = cdColor.Color.ToArgb();
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
+            //設定ファイルのシリアル化
+            try {
+                using (var writer = XmlWriter.Create("settings.xml")) {
+                    var serializer = new XmlSerializer(settings.GetType());
+                    serializer.Serialize(writer, settings);
+                }
+            }
+            catch (Exception) {
+                MessageBox.Show("設定ファイル書き込みエラー", "エラー");
+            }
         }
     }
 }

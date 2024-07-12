@@ -473,6 +473,7 @@
             Name = "Form1";
             SizeGripStyle = SizeGripStyle.Hide;
             Text = "試乗レポート管理システム";
+            FormClosed += Form1_FormClosed;
             Load += Form1_Load;
             MakerBox.ResumeLayout(false);
             MakerBox.PerformLayout();
