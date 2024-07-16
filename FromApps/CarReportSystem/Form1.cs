@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
+using System.Reflection;
 using System.Runtime.Serialization.DataContracts;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization.Json;
@@ -22,7 +23,7 @@ namespace CarReportSystem {
         public Form1() {
             InitializeComponent();
             dgvCarReport.DataSource = listCarReports;
-            
+
         }
 
         private void btAddReport_Click(object sender, EventArgs e) {
@@ -171,8 +172,8 @@ namespace CarReportSystem {
                 catch (Exception) {
                     tslbMessage.Text = "色情報ファイルが破損しています";
                 }
-            }else {
-               tslbMessage.Text = "色情報ファイルがありません";
+            } else {
+                tslbMessage.Text = "色情報ファイルがありません";
             }
         }
 
@@ -331,6 +332,11 @@ namespace CarReportSystem {
             catch (Exception) {
                 MessageBox.Show("設定ファイル書き込みエラー", "エラー");
             }
+        }
+
+        private void このアプリについてToolStripMenuItem_Click(object sender, EventArgs e) {
+            var fmversion = new fmVersion();
+            fmversion.Show();
         }
     }
 }
