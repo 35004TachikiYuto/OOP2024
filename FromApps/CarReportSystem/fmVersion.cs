@@ -25,6 +25,7 @@ namespace CarReportSystem {
             var asm = Assembly.GetExecutingAssembly();
             var ver = asm.GetName().Version;
             lbVersion.Text = "Ver." + ver.ToString();
+            
 
             var cr = fileVersionInfo.LegalCopyright;
             lbCopyRight.Text = "copyright(c)" + cr.ToString();
