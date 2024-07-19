@@ -26,8 +26,8 @@ namespace Exercise01 {
             var xdoc = XDocument.Load(file);
             var sample = xdoc.Root.Elements()
                                     .Select(x => new {
-                                        Name = (string)x.Element("name"),
-                                        Teammembers = (int)x.Element("teammembers"),
+                                        Name = x.Element("name"),
+                                        Teammembers = x.Element("teammembers"),
                                     });
             foreach (var xsample in sample) {
                 Console.WriteLine("{0},{1}",xsample.Name,xsample.Teammembers);
@@ -48,17 +48,28 @@ namespace Exercise01 {
 
         private static void Exercise1_3(string file) {
             var xdoc = XDocument.Load(file);
-            var sample = xdoc.Root.Elements("ballsport");
-            var max = sample.OrderByDescending(x=>(int)x.Element("teammembers"))
-                .FirstOrDefault();
-            var xname = max.Element("name");
+            var max = xdoc.Root.Elements()
+                        .OrderByDescending(x=>x.Element("teammembers").Value)
+                        .First();
+            
 
             
-            Console.WriteLine(xname.Value);
+            Console.WriteLine($"{max.Element("name").Value}");
 
         }
 
         private static void Exercise1_4(string file, string newfile) {
+            
+            var element = new XElement("ballsport",
+                          new XElement("name", "サッカー", new XAttribute("kanji","蹴球")),
+                          new XElement("teammembers", "11"),
+                          new XElement("firstplayed", "1863")
+                          );
+
+            var xdoc = XDocument.Load(file);
+            xdoc.Root.Add(element);
+
+            xdoc.Save("BallSports.xml");
         }
     }
 }
