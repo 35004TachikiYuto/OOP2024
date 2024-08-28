@@ -58,12 +58,12 @@ namespace Exercise01 {
             var emps = new Employee[] {
                 new Employee {
                     Id=123,
-                    Name = "出井　秀行",
+                    Name = "出井 秀行",
                     HireDate=new DateTime(2001,5,10)
                 },
                 new Employee {
                     Id = 139,
-                    Name = "大橋　孝仁",
+                    Name = "大橋 孝仁",
                     HireDate = new DateTime(2004,12,1)
                 },
             };
@@ -86,17 +86,17 @@ namespace Exercise01 {
             var emps = new Employee[] {
                 new Employee {
                     Id=123,
-                    Name = "出井　秀行",
+                    Name = "出井 秀行",
                     HireDate=new DateTime(2001,5,10)
                 },
                 new Employee {
                     Id = 139,
-                    Name = "大橋　孝仁",
+                    Name = "大橋 孝仁",
                     HireDate = new DateTime(2004,12,1)
                 },
             };
 
-
+            //using (var stream = new FileStream("novel.json", FileMode.Create, FileAccess.Write)) {
             var options = new JsonSerializerOptions {
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
                 WriteIndented = true,
@@ -106,7 +106,8 @@ namespace Exercise01 {
             Console.WriteLine($"{jsonString}");//画面出力
 
             File.WriteAllText(file, jsonString);
-
+            //JsonSerializer.Serialize(stream,emps, options );
         }
     }
 }
+
