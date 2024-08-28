@@ -98,6 +98,7 @@ namespace Exercise01 {
 
             //using (var stream = new FileStream("novel.json", FileMode.Create, FileAccess.Write)) {
             var options = new JsonSerializerOptions {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
                 WriteIndented = true,
             };
