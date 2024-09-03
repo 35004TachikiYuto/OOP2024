@@ -90,7 +90,7 @@ namespace Exercise01 {
                     HireDate=new DateTime(2001,5,10)
                 },
                 new Employee {
-                    Id = 139,
+                    Id = 139,   
                     Name = "大橋 孝仁",
                     HireDate = new DateTime(2004,12,1)
                 },
