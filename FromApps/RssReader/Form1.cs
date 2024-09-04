@@ -21,16 +21,26 @@ namespace RssReader {
                 var url = wc.OpenRead(tbRssUrl.Text);
                 var xdoc = XDocument.Load(url);
 
-                var xtitles = xdoc.Descendants("item");
+                var xtitles = xdoc.Descendants("item")
+                                            .Select(item => item.Element("title").Value);
 
                 foreach (var titles in xtitles){
-                    var title = titles.Element("title").Value;
-                    lbRssTitle.Items.Add("『"+title+"』");
-
+                    lbRssTitle.Items.Add("『"+titles+"』");
                 }
+            }
+        }
 
-                
+        private void lbRssTitle_SelectedIndexChanged(object sender, EventArgs e) {
+            using (var wc = new WebClient()) {
+                var url = wc.OpenRead(tbRssUrl.Text);
+                var xdoc = XDocument.Load(url);
+                var link = xdoc.Descendants("item")
+                                                .Select(item=>item.Element("link").Value);
 
+                foreach (var links in link){
+                    wbRss.Navigate(links);
+                }
+              
             }
         }
     }

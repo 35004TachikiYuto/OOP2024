@@ -52,15 +52,17 @@
             this.lbRssTitle.ItemHeight = 12;
             this.lbRssTitle.Location = new System.Drawing.Point(12, 37);
             this.lbRssTitle.Name = "lbRssTitle";
-            this.lbRssTitle.Size = new System.Drawing.Size(563, 316);
+            this.lbRssTitle.Size = new System.Drawing.Size(488, 268);
             this.lbRssTitle.TabIndex = 2;
+            this.lbRssTitle.SelectedIndexChanged += new System.EventHandler(this.lbRssTitle_SelectedIndexChanged);
             // 
             // wbRss
             // 
-            this.wbRss.Location = new System.Drawing.Point(12, 364);
+            this.wbRss.Location = new System.Drawing.Point(12, 311);
             this.wbRss.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbRss.Name = "wbRss";
-            this.wbRss.Size = new System.Drawing.Size(776, 250);
+            this.wbRss.ScriptErrorsSuppressed = true;
+            this.wbRss.Size = new System.Drawing.Size(776, 303);
             this.wbRss.TabIndex = 3;
             // 
             // Form1
