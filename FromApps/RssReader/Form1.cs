@@ -15,9 +15,13 @@ namespace RssReader {
     public partial class Form1 : Form {
         List<ItemData> items;
         Dictionary<string, string> dic;
+        Dictionary<string, string> favoriteUrls;
 
         // お気に入りのタイトルを管理するリスト
         List<string> favoriteTitles;
+
+        // URLを保存するフィールド
+        private string currentUrl;
 
         public Form1() {
             InitializeComponent();
@@ -38,6 +42,8 @@ namespace RssReader {
 
             // お気に入りのリストを初期化
             favoriteTitles = new List<string>();
+            favoriteUrls = new Dictionary<string, string>();
+
             InitializeAsync();
             ShowInitialMessage();
 
@@ -51,34 +57,38 @@ namespace RssReader {
 
         private void ShowInitialMessage() {
             // フォームがロードされたときにメッセージボックスを表示
-            var result = MessageBox.Show("項目を選択しないと取得ボタンは押せません", "選択のお願い", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var result = MessageBox.Show("項目を選択してからでないと取得ボタンは押せません！", "選択のお願い", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-            private void CbRssUrl_SelectedIndexChanged(object sender, EventArgs e) {
+        private void CbRssUrl_SelectedIndexChanged(object sender, EventArgs e) {
             // コンボボックスにアイテムが選択されているかどうかでボタンの有効/無効を切り替え
             btGet.Enabled = cbRssUrl.SelectedIndex >= 0;
         }
 
         private void btGet_Click(object sender, EventArgs e) {
-            using (var wc = new WebClient()) {
+            string url;
+            if (dic.TryGetValue(cbRssUrl.Text, out url)) {
+                // URLを保存
+                currentUrl = url;
 
-                var url = wc.OpenRead(dic[cbRssUrl.Text]);
-                var xdoc = XDocument.Load(url);
+                using (var wc = new WebClient()) {
+                    var rssUrl = wc.OpenRead(url);
+                    var xdoc = XDocument.Load(rssUrl);
 
-                items = xdoc.Root.Descendants("item")
-                                            .Select(item => new ItemData {
-                                                Title = item.Element("title").Value,
-                                                Link = item.Element("link").Value
-                                            }).ToList();
+                    items = xdoc.Root.Descendants("item")
+                        .Select(item => new ItemData {
+                            Title = item.Element("title").Value,
+                            Link = item.Element("link").Value
+                        }).ToList();
 
-                lbRssTitle.Items.Clear();
-                foreach (var titles in items) {
-                    lbRssTitle.Items.Add("『" + titles.Title + "』");
-
+                    lbRssTitle.Items.Clear();
+                    foreach (var item in items) {
+                        lbRssTitle.Items.Add("『" + item.Title + "』");
+                    }
                 }
-
+            } else {
+                MessageBox.Show("指定されたRSS URLが見つかりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void lbRssTitle_SelectedIndexChanged(object sender, EventArgs e) {
@@ -92,43 +102,52 @@ namespace RssReader {
 
         private void btFavorite_Click(object sender, EventArgs e) {
             var title = txtFavorite.Text.Trim();
-            if (!string.IsNullOrEmpty(title) && !favoriteTitles.Contains(title)) {
-                // お気に入りのタイトルをリストに追加
-                favoriteTitles.Add(title);
-                cbRssUrl.Items.Add(title);
 
-                // テキストボックスをクリア
-                txtFavorite.Text = "";
+            // テキストボックスが空でないか確認
+            if (!string.IsNullOrEmpty(title)) {
+                // 保存されたURLがあるか確認
+                if (currentUrl != null) {
+                    // お気に入りのタイトルとURLを辞書に追加
+                    if (!favoriteTitles.Contains(title)) {
+                        favoriteTitles.Add(title);
+                        favoriteUrls[title] = currentUrl;
+                        cbRssUrl.Items.Add(title);
+                        MessageBox.Show($"URL: {currentUrl}", "お気に入り登録", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    } else {
+                        MessageBox.Show("このタイトルはすでにお気に入りに登録されています。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    // テキストボックスをクリア
+                    txtFavorite.Text = "";
+                } else {
+                    MessageBox.Show("まずは「取得」ボタンをクリックしてURLを取得してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             } else {
-                MessageBox.Show("正しく入力してください。","エラー",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("正しいタイトルを入力してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btRemoveFavorite_Click(object sender, EventArgs e) {
-            // お気に入りのリストから選択されたアイテムを削除
             var selectedIndex = cbRssUrl.SelectedIndex;
-            if (selectedIndex >= 0 && selectedIndex < favoriteTitles.Count) {
-                // 選択されたタイトルをリストから削除
-                favoriteTitles.RemoveAt(selectedIndex);
-
-                // コンボボックスからも削除
+            if (selectedIndex >= 0 && selectedIndex < cbRssUrl.Items.Count) {
+                var title = cbRssUrl.Items[selectedIndex].ToString();
+                favoriteTitles.Remove(title);
+                favoriteUrls.Remove(title);
                 cbRssUrl.Items.RemoveAt(selectedIndex);
 
                 // 選択を解除
                 cbRssUrl.SelectedIndex = -1;
+                btGet.Enabled = false;
             } else {
                 MessageBox.Show("削除するアイテムを選択してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
-
-
-
-
     public class ItemData {
         public string Title { get; set; }
         public string Link { get; set; }
     }
+
 }
 
 
