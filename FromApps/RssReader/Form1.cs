@@ -25,6 +25,7 @@ namespace RssReader {
 
         public Form1() {
             InitializeComponent();
+            lbRssTitle.SelectedIndexChanged += lbRssTitle_SelectedIndexChanged; // イベントハンドラーの紐付け
             dic = new Dictionary<string, string>() {
                 {"主要","https://news.yahoo.co.jp/rss/topics/top-picks.xml"},
                 {"国内","https://news.yahoo.co.jp/rss/topics/domestic.xml" },
@@ -57,7 +58,8 @@ namespace RssReader {
 
         private void ShowInitialMessage() {
             // フォームがロードされたときにメッセージボックスを表示
-            var result = MessageBox.Show("項目を選択してからでないと取得ボタンは押せません！", "選択のお願い", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var message = "項目を選択してからでないと取得ボタンは押せません！\nお気に入り登録は項目を選択してからしてください！";
+            MessageBox.Show(message, "諸注意", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void CbRssUrl_SelectedIndexChanged(object sender, EventArgs e) {
@@ -67,18 +69,64 @@ namespace RssReader {
 
         private void btGet_Click(object sender, EventArgs e) {
             string url;
-            if (dic.TryGetValue(cbRssUrl.Text, out url)) {
-                // URLを保存
-                currentUrl = url;
 
+            // コンボボックスで選択されているアイテムがあるか確認
+            if (cbRssUrl.SelectedIndex >= 0) {
+                var selectedTitle = cbRssUrl.Text;
+
+                // お気に入りが選択されている場合
+                if (favoriteUrls.TryGetValue(selectedTitle, out url)) {
+                    currentUrl = url; // お気に入りのURLを保存
+                }
+                // 通常のRSS URLの場合
+                else if (dic.TryGetValue(selectedTitle, out url)) {
+                    currentUrl = url; // 通常のRSS URLを保存
+                } else {
+                    MessageBox.Show("指定されたRSS URLが見つかりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                LoadRssFromUrl(currentUrl); // URLからRSSを取得
+            } else {
+                MessageBox.Show("項目を選択してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void lbRssTitle_SelectedIndexChanged(object sender, EventArgs e) {
+            // リストボックスの選択インデックスの確認
+            if (lbRssTitle.SelectedIndex >= 0 && lbRssTitle.SelectedIndex < items.Count) {
+                var selectedItem = items[lbRssTitle.SelectedIndex];
+                if (selectedItem != null && !string.IsNullOrEmpty(selectedItem.Link)) {
+                    try {
+                        // WebView2のCoreWebView2が初期化されているかチェック
+                        if (wv2.CoreWebView2 != null) {
+                            // 選択されたリンク先にナビゲート
+                            wv2.CoreWebView2.Navigate(selectedItem.Link);
+                        } else {
+                            MessageBox.Show("WebView2が初期化されていません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                    catch (Exception ex) {
+                        MessageBox.Show($"ページの表示に失敗しました: {ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                } else {
+                    MessageBox.Show("選択された項目のリンクが見つかりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            } else {
+                MessageBox.Show("無効な項目が選択されました。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadRssFromUrl(string url) {
+            try {
                 using (var wc = new WebClient()) {
                     var rssUrl = wc.OpenRead(url);
                     var xdoc = XDocument.Load(rssUrl);
 
                     items = xdoc.Root.Descendants("item")
                         .Select(item => new ItemData {
-                            Title = item.Element("title").Value,
-                            Link = item.Element("link").Value
+                            Title = item.Element("title")?.Value,
+                            Link = item.Element("link")?.Value
                         }).ToList();
 
                     lbRssTitle.Items.Clear();
@@ -86,38 +134,28 @@ namespace RssReader {
                         lbRssTitle.Items.Add("『" + item.Title + "』");
                     }
                 }
-            } else {
-                MessageBox.Show("指定されたRSS URLが見つかりません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void lbRssTitle_SelectedIndexChanged(object sender, EventArgs e) {
-            if (lbRssTitle.SelectedIndex != null) {
-                var selectedItem = items[lbRssTitle.SelectedIndex];
-                wv2.CoreWebView2.Navigate(selectedItem.Link);
+            catch (Exception ex) {
+                MessageBox.Show($"エラー: {ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
         }
 
         private void btFavorite_Click(object sender, EventArgs e) {
             var title = txtFavorite.Text.Trim();
 
-            // テキストボックスが空でないか確認
             if (!string.IsNullOrEmpty(title)) {
-                // 保存されたURLがあるか確認
                 if (currentUrl != null) {
-                    // お気に入りのタイトルとURLを辞書に追加
                     if (!favoriteTitles.Contains(title)) {
                         favoriteTitles.Add(title);
-                        favoriteUrls[title] = currentUrl;
+                        favoriteUrls[title] = currentUrl; // ここでURLを保存
                         cbRssUrl.Items.Add(title);
-                        MessageBox.Show($"URL: {currentUrl}", "お気に入り登録", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // メッセージを「登録完了」に変更
+                        MessageBox.Show("登録完了", "お気に入り登録", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     } else {
                         MessageBox.Show("このタイトルはすでにお気に入りに登録されています。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
-                    // テキストボックスをクリア
                     txtFavorite.Text = "";
                 } else {
                     MessageBox.Show("まずは「取得」ボタンをクリックしてURLを取得してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -128,20 +166,41 @@ namespace RssReader {
         }
 
         private void btRemoveFavorite_Click(object sender, EventArgs e) {
-            var selectedIndex = cbRssUrl.SelectedIndex;
-            if (selectedIndex >= 0 && selectedIndex < cbRssUrl.Items.Count) {
-                var title = cbRssUrl.Items[selectedIndex].ToString();
+            // コンボボックスで何も選択されていない場合のチェック
+            if (cbRssUrl.SelectedIndex == -1) {
+                // エラーメッセージを一度だけ表示する
+                MessageBox.Show("削除するアイテムを選択してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; // 処理を終了
+            }
+
+            // 選択されている項目の取得
+            var title = cbRssUrl.SelectedItem.ToString();
+
+            // お気に入りのリストから削除処理
+            if (favoriteTitles.Contains(title) && favoriteUrls.ContainsKey(title)) {
+                // 削除処理
                 favoriteTitles.Remove(title);
                 favoriteUrls.Remove(title);
-                cbRssUrl.Items.RemoveAt(selectedIndex);
+                cbRssUrl.Items.RemoveAt(cbRssUrl.SelectedIndex);
 
-                // 選択を解除
-                cbRssUrl.SelectedIndex = -1;
-                btGet.Enabled = false;
-            } else {
-                MessageBox.Show("削除するアイテムを選択してください。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // 削除成功メッセージを表示
+                MessageBox.Show("削除が成功しました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // 削除後の選択を行う
+                if (cbRssUrl.Items.Count > 0) {
+                    // 他にアイテムがあれば、最初のアイテムを選択
+                    cbRssUrl.SelectedIndex = 0;
+                } else {
+                    // アイテムがなくなった場合は選択解除
+                    cbRssUrl.SelectedIndex = -1;
+                    btGet.Enabled = false; // ボタンを無効にする
+                }
             }
         }
+
+
+
+
     }
     public class ItemData {
         public string Title { get; set; }
