@@ -67,7 +67,7 @@
             this.cbRssUrl.Name = "cbRssUrl";
             this.cbRssUrl.Size = new System.Drawing.Size(670, 26);
             this.cbRssUrl.TabIndex = 4;
-            // 
+            // 　
             // wv2
             // 
             this.wv2.AllowExternalDrop = true;
