@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Exercise01 {
@@ -67,16 +69,41 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_5() {
-            var years = new int[] { 2016 };
-            var books = Library.Books.Where(b => years.Contains(b.PublishedYear));
+            var quary = Library.Books
+                            .Where(b => b.PublishedYear == 2016)
+                            .Join(Library.Categories,            // 結合する二番目のシーケンス
+                                        book => book.CategoryId, //対象シーケンスの結合キー
+                                        category => category.Id, //2番目シーケンスの結合キー
+                                        (book, category) => category.Name)
+                                        .Distinct();
 
-            foreach (var book in books) {
-                Console.WriteLine(book);
+            foreach (var name in quary) {
+                Console.WriteLine(name);
             }
         }
 
         private static void Exercise1_6() {
-            var groups = Library.Categories.OrderBy(b => b.Name)
+
+            var quary = Library.Books
+                            .Join(Library.Categories,            // 結合する二番目のシーケンス
+                                        book => book.CategoryId, //対象シーケンスの結合キー
+                                        category => category.Id, //2番目シーケンスの結合キー
+                                        (book, category) => new {
+                                            book.Title,
+                                            CategoryName = category.Name,
+                                        })
+                            .GroupBy(x => x.CategoryName)
+                            .OrderBy(x => x.Key);
+
+            foreach (var group in quary) {
+                Console.WriteLine("#{0}", group.Key);
+                foreach (var books in group) {
+                    Console.WriteLine("  {0}", books.Title);
+                }
+            }
+
+
+            /*var groups = Library.Categories.OrderBy(b => b.Name)
                                          .GroupJoin(Library.Books,
                                              c => c.Id,
                                              b => b.CategoryId,
@@ -90,15 +117,25 @@ namespace Exercise01 {
                 foreach (var books in group.Books) {
                     Console.WriteLine($"  {books.Title}");
                 }
-            }
+            }*/
 
         }
 
         private static void Exercise1_7() {
-
+            var categorysId = Library.Categories.Single(b => b.Name == "Development").Id;
+            var quary = Library.Books.Where(b => b.CategoryId == categorysId)
+                                        .GroupBy(b => b.PublishedYear)
+                                        .OrderBy(b => b.Key);
+            foreach (var years in quary) {
+                Console.WriteLine("#{0}年", years.Key);
+                foreach (var titles in years) {
+                    Console.WriteLine("  {0}", titles.Title);
+                }
+            }
         }
 
         private static void Exercise1_8() {
+
         }
     }
 }
