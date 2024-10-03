@@ -147,7 +147,7 @@ namespace Exercise01 {
                                             })
                                 .Where(x => x.Count >= 4);
             foreach (var group in quary) {
-                Console.WriteLine(group.CategoryName + "(" + group.Count + "冊)")
+                Console.WriteLine(group.CategoryName + "(" + group.Count + "冊)");
             }
 
             /*var quary = Library.Categories
