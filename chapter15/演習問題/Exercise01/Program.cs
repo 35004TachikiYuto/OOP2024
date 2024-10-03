@@ -135,6 +135,18 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_8() {
+            var quary = Library.Categories
+                            .GroupJoin(Library.Books,
+                                c => c.Id,
+                                b => b.CategoryId,
+                                (c, books) => new {
+                                    Category = c.Name,
+                                    Count = books.Count(),
+                                }).Where(x => x.Count >= 4);
+            foreach (var books in quary) {
+                Console.WriteLine("{0}", books.Category);
+            }
+
 
         }
     }
