@@ -84,6 +84,7 @@ namespace Exercise01 {
 
         private static void Exercise1_6() {
 
+            //模範解答
             var quary = Library.Books
                             .Join(Library.Categories,            // 結合する二番目のシーケンス
                                         book => book.CategoryId, //対象シーケンスの結合キー
@@ -102,7 +103,7 @@ namespace Exercise01 {
                 }
             }
 
-
+            //自分のやつ
             /*var groups = Library.Categories.OrderBy(b => b.Name)
                                          .GroupJoin(Library.Books,
                                              c => c.Id,
@@ -135,7 +136,21 @@ namespace Exercise01 {
         }
 
         private static void Exercise1_8() {
+            //模範解答
             var quary = Library.Categories
+                                .GroupJoin(Library.Books,
+                                            c => c.Id,
+                                            b => b.CategoryId,
+                                            (c, b) => new {
+                                                CategoryName = c.Name,
+                                                Count = b.Count()
+                                            })
+                                .Where(x => x.Count >= 4);
+            foreach (var group in quary) {
+                Console.WriteLine(group.CategoryName + "(" + group.Count + "冊)")
+            }
+
+            /*var quary = Library.Categories
                             .GroupJoin(Library.Books,
                                 c => c.Id,
                                 b => b.CategoryId,
@@ -145,7 +160,7 @@ namespace Exercise01 {
                                 }).Where(x => x.Count >= 4);
             foreach (var books in quary) {
                 Console.WriteLine("{0}", books.Category);
-            }
+            }*/
 
 
         }
