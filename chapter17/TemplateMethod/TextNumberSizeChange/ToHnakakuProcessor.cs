@@ -11,8 +11,8 @@ namespace TextNumberSizeChange {
 
         private int _count;
         Dictionary<char, char> name = new Dictionary<char, char>(){
-            {'0','0'},{'1','１'},{'2','２'},{'3','３'},{'4','４'},
-            {'5','５'},{'6','６'},{'7','７'},{'8','８'},{'9','９'},};
+            {'０','0'},{'１','1'},{'２','2'},{'３','3'},{'４','4'},
+            {'５','5'},{'６','6'},{'７','7'},{'８','8'},{'９','9'},};
 
         protected override void Initialize(string fname) {
             _count = 0;
