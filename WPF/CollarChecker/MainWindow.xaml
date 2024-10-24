@@ -28,19 +28,40 @@
                 <ColumnDefinition Width="*"/>
 
             </Grid.ColumnDefinitions>
-            <Slider x:Name="rSloider" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Maximum="255"/>
-            <TextBox x:Name="rValue" Text= "{Binding ElementName=rSlider,Path=Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"/>
+            
+            
+            <Slider x:Name="rSlider" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center"  Maximum="255" ValueChanged="Slider_ValueChanged"/>
+            <TextBox x:Name="rValue" Text= "{Binding ElementName=rSlider,Path=Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:0}}"  Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"/>
             <TextBlock Grid.Row="0" Text="R" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <Slider x:Name="gSloider" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Maximum="255"/>
-            <TextBox x:Name="gValue" Text= "{Binding ElementName=gSlider,Path=Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"/>
+            
+            
+            <Slider x:Name="gSlider" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" Maximum="255" ValueChanged="Slider_ValueChanged"/>
+            <TextBox x:Name="gValue" Text= "{Binding ElementName=gSlider,Path=Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:0}}"  Grid.Column="2" Grid.Row="1" VerticalAlignment="Center"/>
             <TextBlock Grid.Row="1" Text="G" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <Slider x:Name="bSloider" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Maximum="255"/>
-            <TextBox x:Name="bValue" Text= "{Binding ElementName=bSlider,Path=Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Grid.Column="2" Grid.Row="2" VerticalAlignment="Center"/>
+            
+            
+            <Slider x:Name="bSlider"  Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Maximum="255" ValueChanged="Slider_ValueChanged"/>
+            <TextBox x:Name="bValue" Text= "{Binding ElementName=bSlider,Path=Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,StringFormat={}{0:0}}"  Grid.Column="2" Grid.Row="2" VerticalAlignment="Center"/>
             <TextBlock Grid.Row="2" Text="B" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <ComboBox x:Name="colorSelectComboBox"  Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0" Width="120" />
+
+            <ComboBox x:Name="colorSelectComboBox" ItemsSource="{Binding}" SelectedValue="{Binding Color}" Grid.ColumnSpan="3" Grid.Row="3" Margin="25,0" VerticalAlignment="Center">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="20" Height="Auto" Margin="5,0" BorderThickness="1" BorderBrush="Black"  >
+                                <Border.Background>
+                                    <SolidColorBrush Color="{Binding Color}"/>
+                                </Border.Background>
+                            </Border>
+                            <TextBlock Text="{Binding Name}"></TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
         </Grid>
 
         <Grid Grid.Column="2">
@@ -49,10 +70,13 @@
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="stockButton" Content="STOCK" Margin="0,0,10,0" VerticalAlignment="Center" Background="PaleGreen" Height="38" FontSize="25"/>
-            <ListBox x:Name="StockList" Grid.Row="1" Background="Pink" Margin="5"/>
-
+            <Button x:Name="stockButton" Content="STOCK" Margin="10" Background="PaleGreen"  FontSize="16" Click="stockButton_Click"/>
+            <ListBox x:Name="stockList" Grid.Row="1" Background="Pink" Margin="5" FontFamily="Yu Gothic" FontSize="20">
+                
+            </ListBox>
         </Grid>
+
+           
 
     </Grid>
 </Window>
