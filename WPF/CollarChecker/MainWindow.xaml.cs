@@ -12,7 +12,7 @@ namespace CollarChecker {
         public MainWindow() {
             InitializeComponent();
             //αチャンネルの初期値を設定(起動時すぐにストックボタンが押された場合の対応)
-            currentColor.Color = Color.FromArgb(255,0,0,0);
+            currentColor.Color = Color.FromArgb(255, 0, 0, 0);
 
             DataContext = GetColorList();
         }
@@ -43,18 +43,24 @@ namespace CollarChecker {
             StockList.Items.Add(myColor); */// MyColorオブジェクトをListBoxに追加
 
             if (stockList.Items.Cast<MyColor>().Any(c => c.Color == currentColor.Color)) {
-                return; 
+                MessageBox.Show("登録済みの値です。");
+                return;
             }
 
-            stockList.Items.Insert(0,currentColor);
+            stockList.Items.Insert(0, currentColor);
         }
 
 
         private void StockList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-             colorArea.Background = new SolidColorBrush(((MyColor)stockList.Items[stockList.SelectedIndex]).Color);
-             rSlider.Value = ((MyColor)stockList.Items[stockList.SelectedIndex]).Color.R;
-             gSlider.Value = ((MyColor)stockList.Items[stockList.SelectedIndex]).Color.G;
-             bSlider.Value = ((MyColor)stockList.Items[stockList.SelectedIndex]).Color.B;
+            colorArea.Background = new SolidColorBrush(((MyColor)stockList.Items[stockList.SelectedIndex]).Color);
+            setSliderValue(((MyColor)stockList.Items[stockList.SelectedIndex]).Color);
+
+        }
+
+        private void setSliderValue(Color color) {
+            rSlider.Value = color.R;
+            gSlider.Value = color.G;
+            bSlider.Value = color.B;
         }
 
 
@@ -63,18 +69,14 @@ namespace CollarChecker {
         /// すべての色を取得するメソッド
         /// </summary>
         /// <returns></returns>
-        private cbColor[] GetColorList() {
+        private MyColor[] GetColorList() {
             return typeof(Colors).GetProperties(BindingFlags.Public | BindingFlags.Static)
-                .Select(i => new cbColor() { Color = (Color)i.GetValue(null), Name = i.Name }).ToArray();
+                .Select(i => new MyColor() { Color = (Color)i.GetValue(null), Name = i.Name }).ToArray();
         }
-    }
 
-
-    /// <summary>
-    /// 色と色名を保持するクラス
-    /// </summary>
-    public class cbColor {
-        public Color Color { get; set; }
-        public string Name { get; set; }
+        private void colorSelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            currentColor = (MyColor)((ComboBox)sender).SelectedItem;
+            setSliderValue(currentColor.Color);
+        }
     }
 }
