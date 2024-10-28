@@ -47,20 +47,27 @@
             <TextBlock Grid.Row="2" Text="B" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
 
-            <ComboBox x:Name="colorSelectComboBox" ItemsSource="{Binding}" SelectedValue="{Binding Color}" Grid.ColumnSpan="3" Grid.Row="3" Margin="25,0" VerticalAlignment="Center">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Border Width="20" Height="Auto" Margin="5,0" BorderThickness="1" BorderBrush="Black"  >
-                                <Border.Background>
-                                    <SolidColorBrush Color="{Binding Color}"/>
-                                </Border.Background>
-                            </Border>
-                            <TextBlock Text="{Binding Name}"></TextBlock>
-                        </StackPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+            <ComboBox x:Name="colorSelectComboBox" 
+          ItemsSource="{Binding}" 
+          SelectedValue="{Binding Color}" 
+          SelectionChanged="colorSelectComboBox_SelectionChanged" 
+          Grid.ColumnSpan="3" 
+          Grid.Row="3" 
+          Margin="25,0" 
+          VerticalAlignment="Center">
+    <ComboBox.ItemTemplate>
+        <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+                <Border Width="20" Height="Auto" Margin="5,0" BorderThickness="1" BorderBrush="Black">
+                    <Border.Background>
+                        <SolidColorBrush Color="{Binding Color}"/>
+                    </Border.Background>
+                </Border>
+                <TextBlock Text="{Binding Name}"/>
+            </StackPanel>
+        </DataTemplate>
+    </ComboBox.ItemTemplate>
+</ComboBox>
 
         </Grid>
 
@@ -71,8 +78,8 @@
             </Grid.RowDefinitions>
 
             <Button x:Name="stockButton" Content="STOCK" Margin="10" Background="PaleGreen"  FontSize="16" Click="stockButton_Click"/>
-            <ListBox x:Name="stockList" Grid.Row="1" Background="Pink" Margin="5" FontFamily="Yu Gothic" FontSize="20">
-                
+            <ListBox x:Name="stockList" Grid.Row="1" Background="Pink" Margin="5" FontFamily="Yu Gothic" FontSize="20"
+                SelectionChanged="StockList_SelectionChanged">  
             </ListBox>
         </Grid>
 

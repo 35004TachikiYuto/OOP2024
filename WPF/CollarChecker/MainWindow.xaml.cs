@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace CollarChecker {
     public partial class MainWindow : Window {
@@ -42,19 +43,23 @@ namespace CollarChecker {
             };
             StockList.Items.Add(myColor); */// MyColorオブジェクトをListBoxに追加
 
-            if (stockList.Items.Cast<MyColor>().Any(c => c.Color == currentColor.Color)) {
-                MessageBox.Show("登録済みの値です。");
-                return;
+            if (!stockList.Items.Contains((MyColor)currentColor)) {
+                stockList.Items.Insert(0, currentColor);
+            } else {
+                MessageBox.Show("登録済みの値です。","ColorChecker",MessageBoxButton.OK,MessageBoxImage.Warning);
             }
-
-            stockList.Items.Insert(0, currentColor);
         }
 
 
         private void StockList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            colorArea.Background = new SolidColorBrush(((MyColor)stockList.Items[stockList.SelectedIndex]).Color);
-            setSliderValue(((MyColor)stockList.Items[stockList.SelectedIndex]).Color);
+            if (stockList.SelectedItem is MyColor selectedColor) {
+                colorArea.Background = new SolidColorBrush(selectedColor.Color);
+                setSliderValue(selectedColor.Color);
 
+                rValue.Text = selectedColor.Color.R.ToString();
+                gValue.Text = selectedColor.Color.G.ToString();
+                bValue.Text = selectedColor.Color.B.ToString();
+            }
         }
 
         private void setSliderValue(Color color) {
