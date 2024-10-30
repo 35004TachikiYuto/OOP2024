@@ -27,7 +27,9 @@ namespace CollarChecker {
             colorArea.Background = new SolidColorBrush(Color.FromRgb(rValue, gValue, bValue));*/
 
             currentColor.Color = Color.FromRgb((byte)rSlider.Value, (byte)gSlider.Value, (byte)bSlider.Value);
+            currentColor.Name = null;
             colorArea.Background = new SolidColorBrush(currentColor.Color);
+            stockButton.Background = new SolidColorBrush(currentColor.Color);
 
 
         }
@@ -45,6 +47,7 @@ namespace CollarChecker {
 
             if (!stockList.Items.Contains((MyColor)currentColor)) {
                 stockList.Items.Insert(0, currentColor);
+
             } else {
                 MessageBox.Show("登録済みの値です。","ColorChecker",MessageBoxButton.OK,MessageBoxImage.Warning);
             }
@@ -52,13 +55,10 @@ namespace CollarChecker {
 
 
         private void StockList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (stockList.SelectedItem is MyColor selectedColor) {
+            if (stockList.SelectedIndex != -1) { 
+                var selectedColor = (MyColor)stockList.SelectedItem;
                 colorArea.Background = new SolidColorBrush(selectedColor.Color);
                 setSliderValue(selectedColor.Color);
-
-                rValue.Text = selectedColor.Color.R.ToString();
-                gValue.Text = selectedColor.Color.G.ToString();
-                bValue.Text = selectedColor.Color.B.ToString();
             }
         }
 
@@ -80,8 +80,35 @@ namespace CollarChecker {
         }
 
         private void colorSelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            currentColor = (MyColor)((ComboBox)sender).SelectedItem;
+            colorArea.Background = new SolidColorBrush(((MyColor)colorSelectComboBox.Items[colorSelectComboBox.SelectedIndex]).Color);
+            setSliderValue(((MyColor)colorSelectComboBox.Items[colorSelectComboBox.SelectedIndex]).Color);
+            var tempCurrntColor = (MyColor)((ComboBox)sender).SelectedItem;
+            //各スライダーの値を設定する
             setSliderValue(currentColor.Color);
+            currentColor.Name = tempCurrntColor.Name;//Nameプロパティの文字列を再設定
+            
+        }
+
+        private void deleteButton_Click(object sender, RoutedEventArgs e) {
+            // ストックリストが空か確認
+            if (stockList.Items.Count == 0) {
+                MessageBox.Show("ストックにデータがありません。", "ColorChecker", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // 選択されている項目があるか確認
+            if (stockList.SelectedItem == null) {
+                MessageBox.Show("削除するアイテムを選択してください。", "ColorChecker", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // 確認メッセージを表示
+            var result = MessageBox.Show("本当に削除しますか？", "ColorChecker", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            // ユーザーが「はい」を選択した場合
+            if (result == MessageBoxResult.Yes) {
+                stockList.Items.Remove(stockList.SelectedItem);
+            }
         }
     }
 }
