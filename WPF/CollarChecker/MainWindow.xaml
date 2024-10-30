@@ -47,7 +47,7 @@
             <TextBlock Grid.Row="2" Text="B" FontSize="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
 
-            <ComboBox x:Name="colorSelectComboBox" ItemsSource="{Binding}" SelectedValue="{Binding Color}" SelectionChanged="colorSelectComboBox_SelectionChanged" Grid.ColumnSpan="3" Grid.Row="3" Margin="25,0" VerticalAlignment="Center">
+            <ComboBox x:Name="ColorSelectComboBox" ItemsSource="{Binding}" SelectedValue="{Binding Color}" SelectionChanged="colorSelectComboBox_SelectionChanged" Grid.ColumnSpan="3" Grid.Row="3" Margin="25,0" VerticalAlignment="Center">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -70,11 +70,11 @@
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="stockButton" Content="STOCK" Margin="7,5,78,3" Background="PaleGreen"  FontSize="16" Click="stockButton_Click"/>
-            <ListBox x:Name="stockList" Grid.Row="1" Background="Pink" Margin="7" FontFamily="Yu Gothic" FontSize="20"
+            <Button x:Name="StockButton" Content="STOCK" Margin="7,5,78,3" Background="PaleGreen"  FontSize="16" Click="stockButton_Click"/>
+            <ListBox x:Name="StockList" Grid.Row="1" Background="Pink" Margin="7" FontFamily="Yu Gothic" FontSize="20"
             SelectionChanged="StockList_SelectionChanged">
             </ListBox>
-            <Button x:Name="deleteButton" Content="DELETE" Margin="160,5,7,3" Background="#FFFB3C3C"  FontSize="14" Click="deleteButton_Click"/>
+            <Button x:Name="DeleteButton" Content="DELETE" Margin="160,5,7,3" Background="#FFFB3C3C"  FontSize="14" Click="deleteButton_Click"/>
         </Grid>
 
 

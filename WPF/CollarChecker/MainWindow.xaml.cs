@@ -27,9 +27,9 @@ namespace CollarChecker {
             colorArea.Background = new SolidColorBrush(Color.FromRgb(rValue, gValue, bValue));*/
 
             currentColor.Color = Color.FromRgb((byte)rSlider.Value, (byte)gSlider.Value, (byte)bSlider.Value);
-            currentColor.Name = null;
+            currentColor.Name = GetColorList().Where(x => x.Color.Equals(currentColor.Color)).Select(c=>c.Name).FirstOrDefault();
             colorArea.Background = new SolidColorBrush(currentColor.Color);
-            stockButton.Background = new SolidColorBrush(currentColor.Color);
+            StockButton.Background = new SolidColorBrush(currentColor.Color);
 
 
         }
@@ -45,8 +45,8 @@ namespace CollarChecker {
             };
             StockList.Items.Add(myColor); */// MyColorオブジェクトをListBoxに追加
 
-            if (!stockList.Items.Contains((MyColor)currentColor)) {
-                stockList.Items.Insert(0, currentColor);
+            if (!StockList.Items.Contains((MyColor)currentColor)) {
+                StockList.Items.Insert(0, currentColor);
 
             } else {
                 MessageBox.Show("登録済みの値です。","ColorChecker",MessageBoxButton.OK,MessageBoxImage.Warning);
@@ -55,8 +55,12 @@ namespace CollarChecker {
 
 
         private void StockList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (stockList.SelectedIndex != -1) { 
-                var selectedColor = (MyColor)stockList.SelectedItem;
+
+            //colorArea.Background = new SolidColorBrush(((MyColor)stockList.Items[stockList.SelectedIndex]).Color);
+            //setSliderValue(((MyColor)stockList.Items[stockList.SelectedIndex]).Color);
+
+            if (StockList.SelectedIndex != -1) { 
+                var selectedColor = (MyColor)StockList.SelectedItem;
                 colorArea.Background = new SolidColorBrush(selectedColor.Color);
                 setSliderValue(selectedColor.Color);
             }
@@ -80,8 +84,8 @@ namespace CollarChecker {
         }
 
         private void colorSelectComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            colorArea.Background = new SolidColorBrush(((MyColor)colorSelectComboBox.Items[colorSelectComboBox.SelectedIndex]).Color);
-            setSliderValue(((MyColor)colorSelectComboBox.Items[colorSelectComboBox.SelectedIndex]).Color);
+            colorArea.Background = new SolidColorBrush(((MyColor)ColorSelectComboBox.Items[ColorSelectComboBox.SelectedIndex]).Color);
+            setSliderValue(((MyColor)ColorSelectComboBox.Items[ColorSelectComboBox.SelectedIndex]).Color);
             var tempCurrntColor = (MyColor)((ComboBox)sender).SelectedItem;
             //各スライダーの値を設定する
             setSliderValue(currentColor.Color);
@@ -91,13 +95,13 @@ namespace CollarChecker {
 
         private void deleteButton_Click(object sender, RoutedEventArgs e) {
             // ストックリストが空か確認
-            if (stockList.Items.Count == 0) {
+            if (StockList.Items.Count == 0) {
                 MessageBox.Show("ストックにデータがありません。", "ColorChecker", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             // 選択されている項目があるか確認
-            if (stockList.SelectedItem == null) {
+            if (StockList.SelectedItem == null) {
                 MessageBox.Show("削除するアイテムを選択してください。", "ColorChecker", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
@@ -107,7 +111,7 @@ namespace CollarChecker {
 
             // ユーザーが「はい」を選択した場合
             if (result == MessageBoxResult.Yes) {
-                stockList.Items.Remove(stockList.SelectedItem);
+                StockList.Items.Remove(StockList.SelectedItem);
             }
         }
     }
