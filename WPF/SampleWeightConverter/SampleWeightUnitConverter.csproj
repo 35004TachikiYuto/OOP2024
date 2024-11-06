@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{85557EA8-E683-4BB1-ACA9-D5D803E15182}</ProjectGuid>
+    <ProjectGuid>{F79515C6-6D79-4003-9100-DE2BEDEE8ED0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>sampleUnitConverter</RootNamespace>
-    <AssemblyName>sampleUnitConverter</AssemblyName>
+    <RootNamespace>SampleWeightConverter</RootNamespace>
+    <AssemblyName>SampleWeightConverter</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -55,12 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="Model\DistanceUnit.cs" />
-    <Compile Include="Model\ImperialUnit.cs" />
-    <Compile Include="Model\MetricUnit.cs" />
-    <Compile Include="ViewModel\ViewModel.cs" />
-    <Page Include="View\MainWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -68,8 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DelegateCommand.cs" />
-    <Compile Include="View\MainWindow.xaml.cs">
+    <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
