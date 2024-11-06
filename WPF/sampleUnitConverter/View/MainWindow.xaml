@@ -30,5 +30,7 @@
                       SelectedItem="{Binding CurrentImprialUnit}"
                       ItemsSource="{Binding Source={x:Static SampleUnitConverter:ImperialUnit.Units}}"/>
         </StackPanel>
+        <Button Content="Button" Height="0" Width="2"/>
+        <Button Content="Button"/>
     </StackPanel>
 </Window>
