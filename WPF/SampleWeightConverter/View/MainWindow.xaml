@@ -6,18 +6,26 @@
         xmlns:SampleWeightUnitConverter="clr-namespace:SampleWeightUnitConverter"
         mc:Ignorable="d"
         Title="Sample Weight UnitConverter" SizeToContent="WidthAndHeight" FontSize="20" FontFamily="Segoe UI Light">
-    
+
     <Window.DataContext>
         <SampleWeightUnitConverter:MainWindowViewModel/>
 
     </Window.DataContext>
 
-    <StackPanel Margin="4">
+    <StackPanel Margin="4" RenderTransformOrigin="0.5,0.5">
+        <StackPanel.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform/>
+                <SkewTransform AngleY="-0.158"/>
+                <RotateTransform/>
+                <TranslateTransform Y="-0.242"/>
+            </TransformGroup>
+        </StackPanel.RenderTransform>
         <StackPanel Orientation="Horizontal" >
             <TextBox Width="100" Margin="4" Text="{Binding GramValue, StringFormat={}{0:N3}}"/>
             <ComboBox Width="60" Margin="4" 
                    SelectedItem="{Binding CurrentGramUnit}"
-                   ItemsSource="{Binding Source={x:Static SampleWeightUnitConverter:GramUnit.Units}}"/>
+                   ItemsSource="{Binding Source={x:Static SampleWeightUnitConverter:GramUnit.Units}}" FontSize="20"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -31,7 +39,6 @@
                    SelectedItem="{Binding CurrentPoundUnit}"
                    ItemsSource="{Binding Source={x:Static SampleWeightUnitConverter:PoundUnit.Units}}"/>
         </StackPanel>
-        <Button Content="Button" Height="0" Width="2"/>
-        <Button Content="Button"/>
+
     </StackPanel>
 </Window>

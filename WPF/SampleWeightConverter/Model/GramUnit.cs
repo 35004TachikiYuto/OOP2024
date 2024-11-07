@@ -10,6 +10,8 @@ namespace SampleWeightUnitConverter {
         private static List<GramUnit> units = new List<GramUnit>() {
             new GramUnit{ Name = "g",Coefficient = 1,},
             new GramUnit{ Name = "kg",Coefficient = 1000,},
+            new GramUnit{ Name = "t",Coefficient = 1000000,},
+
         };
         public static ICollection<GramUnit> Units { get { return units; } }
 
