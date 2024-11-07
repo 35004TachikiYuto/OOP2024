@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace SampleWeightUnitConverter {
     public class MainWindowViewModel : ViewModel {
-        private double poundValue, gramValue;
+        private double gramValue, poundValue;
 
         //▲ボタンで呼ばれるコマンド
         public ICommand PoundUnitToGram { get; private set; }
