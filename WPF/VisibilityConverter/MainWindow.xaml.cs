@@ -26,22 +26,19 @@ namespace VisibilityConverter {
             //Resources["ButtonBrushKey"] = new SolidColorBrush(Colors.Red);
         }
 
-        private void RadioButton1_Click(object sender, RoutedEventArgs e) {
-            Bt1.Background = (SolidColorBrush)FindResource("BtRed");
-            Bt2.Background = (SolidColorBrush)FindResource("BtRed");
-            Bt3.Background = (SolidColorBrush)FindResource("BtRed");
-        }
-
-        private void RadioButton2_Click(object sender, RoutedEventArgs e) {
-            Bt1.Background = (SolidColorBrush)FindResource("BtBlue");
-            Bt2.Background = (SolidColorBrush)FindResource("BtBlue");
-            Bt3.Background = (SolidColorBrush)FindResource("BtBlue");
-        }
-
-        private void RadioButton3_Click(object sender, RoutedEventArgs e) {
-            Bt1.Background = (SolidColorBrush)FindResource("BtGreen");
-            Bt2.Background = (SolidColorBrush)FindResource("BtGreen");
-            Bt3.Background = (SolidColorBrush)FindResource("BtGreen");
+        private void RadioButton_Click(object sender, RoutedEventArgs e) {
+            RadioButton seletedRadioButton = (RadioButton)sender;
+            switch(seletedRadioButton.Content) {
+                case "赤":
+                    Resources["ButtonBrushKey"] = new SolidColorBrush(Colors.Red); 
+                    break;
+                case "青":
+                    Resources["ButtonBrushKey"] = new SolidColorBrush(Colors.Blue);
+                    break;
+                case "緑":
+                    Resources["ButtonBrushKey"] = new SolidColorBrush(Colors.Green);
+                    break;
+            }
         }
     }
 }
