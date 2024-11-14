@@ -5,22 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomerApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="400">
+        Title="MainWindow" Height="500" Width="300">
     <Grid>
         <StackPanel Margin="10">
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock Text="名前" Width="50" HorizontalAlignment="Left"/>
-                <TextBox x:Name="NameTextBox" Width="300" />
-            </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="8*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="名前" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+                <TextBox x:Name="NameTextBox" Grid.Row="0" Grid.Column="1" Margin="2"/>
+                <TextBlock Text="電話番号" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+                <TextBox x:Name="PhoneTextBox" Grid.Row="1" Grid.Column="1" Margin="2"/>
+                <TextBlock Text="住所" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+                <TextBox x:Name="AddressTextBox" Grid.Row="2" Grid.Column="1" Margin="2"/>
+            </Grid>
 
-            <StackPanel Margin="5" Orientation="Horizontal">
-                <TextBlock Text="電話番号" Width="50" HorizontalAlignment="Left"/>
-                <TextBox x:Name="PhoneTextBox" Width="300"/>
-            </StackPanel>
-            
             <Button Content="Save" x:Name="SaveButton" Click="SaveButton_Click"/>
             <Button Content="Read" x:Name="ReadButton" Click="ReadButton_Click"/>
+            <ListView x:Name="CustomerListView" Margin="0,5,0,0" Height="300">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel >
+                            <TextBlock Text="{Binding Id}"/>
+                            <TextBlock Text="{Binding Name}" FontSize="20"/>
+                            <TextBlock Text="{Binding Phone}" Foreground="Blue"/>
+                            <TextBlock Text="{Binding Address}" Foreground="LightGreen"/>
+                        </StackPanel>
+                    </DataTemplate>
 
+                </ListView.ItemTemplate>
+
+            </ListView>
 
 
         </StackPanel>
