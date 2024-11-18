@@ -21,6 +21,7 @@ namespace CustomerApp {
     /// </summary>
     public partial class MainWindow : Window {
         List<Customer> _customers;
+        private string imagePath;
         public MainWindow() {
             InitializeComponent();
             ReadDatabase();
@@ -32,6 +33,7 @@ namespace CustomerApp {
                 Name = NameTextBox.Text,
                 Phone = PhoneTextBox.Text,
                 Address = AddressTextBox.Text,
+                Picture = imagePath,
             };
             
             using (var connection = new SQLiteConnection(App.databasePass)) {
@@ -115,6 +117,40 @@ namespace CustomerApp {
 
         //画像を選択して表示
         private void PictureButton_Click(object sender, RoutedEventArgs e) {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog {
+                Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp" // 画像ファイルのフィルタ
+            };
+
+            bool? result = openFileDialog.ShowDialog();
+
+            if (result == true) {
+                string imagePath = openFileDialog.FileName;
+
+                PreviewImage.Source = new BitmapImage(new Uri(imagePath));
+
+                var customer = new Customer {
+                    Name = NameTextBox.Text,
+                    Phone = PhoneTextBox.Text,
+                    Address = AddressTextBox.Text,
+                };
+
+                SaveCustomer(customer);
+            }
+        }
+
+        private void SaveCustomer(Customer customer) {
+            try {
+                using (var connection = new SQLiteConnection(App.databasePass)) {
+                    connection.CreateTable<Customer>();
+                    connection.Insert(customer);
+                }
+
+                ReadDatabase();
+                ClearTextBox();
+            }
+            catch (Exception ex) {
+                MessageBox.Show("保存中にエラーが発生しました: " + ex.Message, "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

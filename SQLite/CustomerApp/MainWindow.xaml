@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomerApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="300">
+        Title="MainWindow" Height="750" Width="300">
     <Grid>
         <StackPanel Margin="10">
             <Grid>
@@ -34,21 +34,21 @@
             <Button Content="Update" x:Name ="UpdateButton" Click="UpdateButton_Click" Margin="2"/>
             
             <TextBox x:Name="SearchTextBox" FontSize="20" TextChanged="SerchTextBox_TextChanged"/>
-            
-            
+
+            <Image x:Name="PreviewImage" Width="100" Height="100" Margin="10"/>
+
             <ListView x:Name="CustomerListView" Margin="0,5,0,0" Height="300" SelectionChanged="CustomerListView_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
                             <TextBlock x:Name="Id" Text="{Binding Id}"/>
                             <TextBlock x:Name="Name" Text="{Binding Name}" FontSize="20"/>
-                            <TextBlock x:Name="Phone" Text="{Binding Phone}" Foreground ="DarkRed" ForceCursor="False"/>
+                            <TextBlock x:Name="Phone" Text="{Binding Phone}" Foreground="DarkRed"/>
                             <TextBlock x:Name="Address" Text="{Binding Address}" Foreground="DarkGreen"/>
+                            <Image Source="{Binding ImagePath}" Width="50" Height="50"/>
                         </StackPanel>
                     </DataTemplate>
-
                 </ListView.ItemTemplate>
-
             </ListView>
 
 

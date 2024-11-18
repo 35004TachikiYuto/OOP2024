@@ -22,7 +22,11 @@ namespace CustomerApp.Objects {
         /// 住所
         /// </summary>
         public string Address { get; set; }
-
+        /// <summary>
+        /// 画像
+        /// </summary>
+        /// <returns></returns>
+        public string Picture { get; set; }
 
         public override string ToString() {
             return $"{Id}  {Name}  {Phone}   {Address}";
