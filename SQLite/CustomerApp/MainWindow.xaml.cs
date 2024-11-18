@@ -26,21 +26,26 @@ namespace CustomerApp {
             ReadDatabase();
         }
 
+        //値を入植してSave
         private void SaveButton_Click(object sender, RoutedEventArgs e) {
             var customer = new Customer() {
                 Name = NameTextBox.Text,
                 Phone = PhoneTextBox.Text,
                 Address = AddressTextBox.Text,
             };
-            NameTextBox.Clear();
-            PhoneTextBox.Clear();
-            AddressTextBox.Clear();
-
+            
             using (var connection = new SQLiteConnection(App.databasePass)) {
                 connection.CreateTable<Customer>();
                 connection.Insert(customer);
             }
-            ReadDatabase();//
+            ReadDatabase();
+            ClearTextBox();
+        }
+
+        private void ClearTextBox() {
+            NameTextBox.Clear();
+            PhoneTextBox.Clear();
+            AddressTextBox.Clear();
         }
 
         private void ReadButton_Click(object sender, RoutedEventArgs e) {
@@ -57,18 +62,60 @@ namespace CustomerApp {
         }
 
         private void SerchTextBox_TextChanged(object sender, TextChangedEventArgs e) {
-            var filterList = _customers.Where(x=>x.Name.Contains(SearchTextBox.Text)).ToList();
+            var filterList = _customers.Where(x => x.Name.Contains(SearchTextBox.Text)).ToList();
             CustomerListView.ItemsSource = filterList;
         }
 
+        //ListViewに入力されているデータを選択して削除
         private void DeleteButton_Click(object sender, RoutedEventArgs e) {
             var item = CustomerListView.SelectedItem as Customer;
             if (item == null) {
                 MessageBox.Show("削除する行を選択してください");
                 return;
             }
+            using (var connection = new SQLiteConnection(App.databasePass)) {
+                connection.CreateTable<Customer>();
+                connection.Delete(item);
+            }
             ReadDatabase();
-            
+            ClearTextBox();
+        }
+
+        //ListViewに保存されている値を更新
+        private void UpdateButton_Click(object sender, RoutedEventArgs e) {
+            var item = CustomerListView.SelectedItem as Customer;
+
+            if (item != null) {
+                item.Name = NameTextBox.Text;
+                item.Phone = PhoneTextBox.Text;
+                item.Address = AddressTextBox.Text;
+
+
+                using (var connection = new SQLiteConnection(App.databasePass)) {
+                    connection.CreateTable<Customer>();
+                    connection.Update(item);
+                }
+                ReadDatabase();
+                ClearTextBox();
+            } else {
+                MessageBox.Show("更新する顧客を選択してください", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        //ListViewの値を選択するとテキストボックスに値を表示
+        private void CustomerListView_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            var item = CustomerListView.SelectedItem as Customer;
+
+            if (item != null) {
+                NameTextBox.Text = item.Name;
+                PhoneTextBox.Text = item.Phone;
+                AddressTextBox.Text = item.Address;
+            }
+        }
+
+        //画像を選択して表示
+        private void PictureButton_Click(object sender, RoutedEventArgs e) {
         }
     }
 }
+

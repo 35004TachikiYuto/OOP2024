@@ -13,6 +13,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
@@ -24,23 +25,25 @@
                 <TextBox x:Name="PhoneTextBox" Grid.Row="1" Grid.Column="1" Margin="2"/>
                 <TextBlock Text="住所" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
                 <TextBox x:Name="AddressTextBox" Grid.Row="2" Grid.Column="1" Margin="2"/>
+                <TextBlock Text="画像" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+                <Button x:Name="PictureButton" Content="画像を選択" Grid.Row="3" Grid.Column="1"  Margin="2,0,2,2" Click="PictureButton_Click"/>
             </Grid>
 
             <Button Content="Save" x:Name="SaveButton" Click="SaveButton_Click" Margin="2"/>
             <Button Content="Delete" x:Name="DeleteButton" Click="DeleteButton_Click" Margin="2"/>
-            
+            <Button Content="Update" x:Name ="UpdateButton" Click="UpdateButton_Click" Margin="2"/>
             
             <TextBox x:Name="SearchTextBox" FontSize="20" TextChanged="SerchTextBox_TextChanged"/>
             
             
-            <ListView x:Name="CustomerListView" Margin="0,5,0,0" Height="300">
+            <ListView x:Name="CustomerListView" Margin="0,5,0,0" Height="300" SelectionChanged="CustomerListView_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
-                            <TextBlock Text="{Binding Id}"/>
-                            <TextBlock Text="{Binding Name}" FontSize="20"/>
-                            <TextBlock Text="{Binding Phone}" Foreground="Blue"/>
-                            <TextBlock Text="{Binding Address}" Foreground="LightGreen"/>
+                            <TextBlock x:Name="Id" Text="{Binding Id}"/>
+                            <TextBlock x:Name="Name" Text="{Binding Name}" FontSize="20"/>
+                            <TextBlock x:Name="Phone" Text="{Binding Phone}" Foreground ="DarkRed" ForceCursor="False"/>
+                            <TextBlock x:Name="Address" Text="{Binding Address}" Foreground="DarkGreen"/>
                         </StackPanel>
                     </DataTemplate>
 
