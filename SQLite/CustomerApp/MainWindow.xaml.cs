@@ -22,32 +22,27 @@ namespace CustomerApp {
     public partial class MainWindow : Window {
         List<Customer> _customers;
         private string imagePath;
+
         public MainWindow() {
             InitializeComponent();
             ReadDatabase();
         }
 
-        //値を入植してSave
+        // 値を入力してSave
         private void SaveButton_Click(object sender, RoutedEventArgs e) {
             var customer = new Customer() {
                 Name = NameTextBox.Text,
                 Phone = PhoneTextBox.Text,
                 Address = AddressTextBox.Text,
-                Picture = imagePath,
+                ImagePath = imagePath
             };
-            
+
             using (var connection = new SQLiteConnection(App.databasePass)) {
-                connection.CreateTable<Customer>();
+                connection.CreateTable<Customer>(); 
                 connection.Insert(customer);
             }
-            ReadDatabase();
-            ClearTextBox();
-        }
 
-        private void ClearTextBox() {
-            NameTextBox.Clear();
-            PhoneTextBox.Clear();
-            AddressTextBox.Clear();
+            ReadDatabase();
         }
 
         private void ReadButton_Click(object sender, RoutedEventArgs e) {
@@ -75,12 +70,13 @@ namespace CustomerApp {
                 MessageBox.Show("削除する行を選択してください");
                 return;
             }
+
             using (var connection = new SQLiteConnection(App.databasePass)) {
                 connection.CreateTable<Customer>();
                 connection.Delete(item);
             }
+
             ReadDatabase();
-            ClearTextBox();
         }
 
         //ListViewに保存されている値を更新
@@ -92,17 +88,21 @@ namespace CustomerApp {
                 item.Phone = PhoneTextBox.Text;
                 item.Address = AddressTextBox.Text;
 
+                if (!string.IsNullOrEmpty(imagePath)) {
+                    item.ImagePath = imagePath;
+                }
 
                 using (var connection = new SQLiteConnection(App.databasePass)) {
                     connection.CreateTable<Customer>();
                     connection.Update(item);
                 }
+
                 ReadDatabase();
-                ClearTextBox();
             } else {
-                MessageBox.Show("更新する顧客を選択してください", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("更新する人を選択してください", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         //ListViewの値を選択するとテキストボックスに値を表示
         private void CustomerListView_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -112,45 +112,43 @@ namespace CustomerApp {
                 NameTextBox.Text = item.Name;
                 PhoneTextBox.Text = item.Phone;
                 AddressTextBox.Text = item.Address;
+
+                if (!string.IsNullOrEmpty(item.ImagePath)) {
+                    PreviewImage.Source = new BitmapImage(new Uri(item.ImagePath));
+                } else {
+                    PreviewImage.Source = null;
+                }
             }
         }
 
+
         //画像を選択して表示
-        private void PictureButton_Click(object sender, RoutedEventArgs e) {
+        private void ImagePathButton_Click(object sender, RoutedEventArgs e) {
             var openFileDialog = new Microsoft.Win32.OpenFileDialog {
-                Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp" // 画像ファイルのフィルタ
+                Filter = "Image Files|*.jpg;*.jpeg;*.png;*.gif;*.bmp" // 画像ファイル
             };
 
             bool? result = openFileDialog.ShowDialog();
 
             if (result == true) {
-                string imagePath = openFileDialog.FileName;
-
+                imagePath = openFileDialog.FileName;
                 PreviewImage.Source = new BitmapImage(new Uri(imagePath));
-
-                var customer = new Customer {
-                    Name = NameTextBox.Text,
-                    Phone = PhoneTextBox.Text,
-                    Address = AddressTextBox.Text,
-                };
-
-                SaveCustomer(customer);
             }
         }
 
-        private void SaveCustomer(Customer customer) {
-            try {
-                using (var connection = new SQLiteConnection(App.databasePass)) {
-                    connection.CreateTable<Customer>();
-                    connection.Insert(customer);
-                }
+        //入力されている値をクリアするボタン
+        private void ClearButton_Click(object sender, RoutedEventArgs e) {
+            NameTextBox.Clear();
+            PhoneTextBox.Clear();
+            AddressTextBox.Clear();
 
-                ReadDatabase();
-                ClearTextBox();
-            }
-            catch (Exception ex) {
-                MessageBox.Show("保存中にエラーが発生しました: " + ex.Message, "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+        }
+
+        //画像をクリアするボタン
+        private void ClearImageButton_Click(object sender, RoutedEventArgs e) {
+            PreviewImage.Source = null;
+            imagePath = null;
+
         }
     }
 }

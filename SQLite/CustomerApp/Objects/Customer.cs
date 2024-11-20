@@ -26,7 +26,7 @@ namespace CustomerApp.Objects {
         /// 画像
         /// </summary>
         /// <returns></returns>
-        public string Picture { get; set; }
+        public string ImagePath { get; set; }
 
         public override string ToString() {
             return $"{Id}  {Name}  {Phone}   {Address}";
