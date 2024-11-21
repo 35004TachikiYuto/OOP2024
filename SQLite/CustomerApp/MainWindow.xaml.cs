@@ -30,6 +30,11 @@ namespace CustomerApp {
 
         // 値を入力してSave
         private void SaveButton_Click(object sender, RoutedEventArgs e) {
+            if (string.IsNullOrWhiteSpace(NameTextBox.Text)) {
+                MessageBox.Show("名前が未入力です。", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var customer = new Customer() {
                 Name = NameTextBox.Text,
                 Phone = PhoneTextBox.Text,
@@ -38,7 +43,7 @@ namespace CustomerApp {
             };
 
             using (var connection = new SQLiteConnection(App.databasePass)) {
-                connection.CreateTable<Customer>(); 
+                connection.CreateTable<Customer>();
                 connection.Insert(customer);
             }
 
@@ -67,7 +72,7 @@ namespace CustomerApp {
         private void DeleteButton_Click(object sender, RoutedEventArgs e) {
             var item = CustomerListView.SelectedItem as Customer;
             if (item == null) {
-                MessageBox.Show("削除する行を選択してください");
+                MessageBox.Show("削除する行が選択されていません", "エラー", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -84,13 +89,16 @@ namespace CustomerApp {
             var item = CustomerListView.SelectedItem as Customer;
 
             if (item != null) {
+                // 既存のデータを更新
                 item.Name = NameTextBox.Text;
                 item.Phone = PhoneTextBox.Text;
                 item.Address = AddressTextBox.Text;
 
+                // 新しい画像が選択されていれば、それを使う
                 if (!string.IsNullOrEmpty(imagePath)) {
                     item.ImagePath = imagePath;
                 }
+                // 画像が選択されていない場合は、既存の画像パスを保持
 
                 using (var connection = new SQLiteConnection(App.databasePass)) {
                     connection.CreateTable<Customer>();
@@ -117,6 +125,7 @@ namespace CustomerApp {
                     PreviewImage.Source = new BitmapImage(new Uri(item.ImagePath));
                 } else {
                     PreviewImage.Source = null;
+
                 }
             }
         }
@@ -148,8 +157,11 @@ namespace CustomerApp {
         private void ClearImageButton_Click(object sender, RoutedEventArgs e) {
             PreviewImage.Source = null;
             imagePath = null;
-
+            var item = CustomerListView.SelectedItem as Customer;
+            if (item != null) {
+                item.ImagePath = null;
+            }
         }
+
     }
 }
-
