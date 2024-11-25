@@ -2,6 +2,9 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +24,8 @@ namespace CustomerApp {
     /// </summary>
     public partial class MainWindow : Window {
         List<Customer> _customers;
-        private string imagePath;
+        private byte[] picture;
+        string filePath = "";
 
         public MainWindow() {
             InitializeComponent();
@@ -35,12 +39,16 @@ namespace CustomerApp {
                 return;
             }
 
-            var customer = new Customer() {
-                Name = NameTextBox.Text,
-                Phone = PhoneTextBox.Text,
-                Address = AddressTextBox.Text,
-                ImagePath = imagePath
-            };
+            var customer = new Customer();
+            customer.Name = NameTextBox.Text;
+            customer.Phone = PhoneTextBox.Text;
+            customer.Address = AddressTextBox.Text;
+
+            Bitmap bmp = new Bitmap(filePath);
+            MemoryStream ms = new MemoryStream();
+            bmp.Save(ms, ImageFormat.Jpeg);
+            byte[] binaryData = ms.ToArray();
+            customer.Picture = picture;
 
             using (var connection = new SQLiteConnection(App.databasePass)) {
                 connection.CreateTable<Customer>();
@@ -63,6 +71,7 @@ namespace CustomerApp {
             }
         }
 
+        //Listの名前を検索
         private void SerchTextBox_TextChanged(object sender, TextChangedEventArgs e) {
             var filterList = _customers.Where(x => x.Name.Contains(SearchTextBox.Text)).ToList();
             CustomerListView.ItemsSource = filterList;
@@ -95,8 +104,11 @@ namespace CustomerApp {
                 item.Address = AddressTextBox.Text;
 
                 // 新しい画像が選択されていれば、それを使う
-                if (!string.IsNullOrEmpty(imagePath)) {
-                    item.ImagePath = imagePath;
+                if (item.Picture != null) {
+                    PreviewImage.Source = Create(item.Picture);
+                } else {
+                    PreviewImage.Source = null;
+
                 }
                 // 画像が選択されていない場合は、既存の画像パスを保持
 
@@ -121,8 +133,8 @@ namespace CustomerApp {
                 PhoneTextBox.Text = item.Phone;
                 AddressTextBox.Text = item.Address;
 
-                if (!string.IsNullOrEmpty(item.ImagePath)) {
-                    PreviewImage.Source = new BitmapImage(new Uri(item.ImagePath));
+                if (item.Picture != null) {
+                    PreviewImage.Source = Create(item.Picture);
                 } else {
                     PreviewImage.Source = null;
 
@@ -130,6 +142,20 @@ namespace CustomerApp {
             }
         }
 
+        public static BitmapImage Create(byte[] bytes) {
+            var result = new BitmapImage();
+
+            using (var stream = new MemoryStream(bytes)) {
+                result.BeginInit();
+                result.CacheOption = BitmapCacheOption.OnLoad;
+                result.CreateOptions = BitmapCreateOptions.None;
+                result.StreamSource = stream;
+                result.EndInit();
+                result.Freeze();    // 非UIスレッドから作成する場合、Freezeしないとメモリリークするため注意
+            }
+
+            return result;
+        }
 
         //画像を選択して表示
         private void ImagePathButton_Click(object sender, RoutedEventArgs e) {
@@ -140,8 +166,12 @@ namespace CustomerApp {
             bool? result = openFileDialog.ShowDialog();
 
             if (result == true) {
-                imagePath = openFileDialog.FileName;
-                PreviewImage.Source = new BitmapImage(new Uri(imagePath));
+                filePath = openFileDialog.FileName;
+                // 画像ファイルを byte[] に変換
+                picture = File.ReadAllBytes(filePath);
+
+                // 画像をプレビューに表示
+                PreviewImage.Source = new BitmapImage(new Uri(filePath));
             }
         }
 
@@ -156,10 +186,10 @@ namespace CustomerApp {
         //画像をクリアするボタン
         private void ClearImageButton_Click(object sender, RoutedEventArgs e) {
             PreviewImage.Source = null;
-            imagePath = null;
+            picture = null;
             var item = CustomerListView.SelectedItem as Customer;
             if (item != null) {
-                item.ImagePath = null;
+                item.Picture = null;
             }
         }
 
