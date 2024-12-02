@@ -67,7 +67,6 @@ namespace CustomerApp {
                     bmp.Save(ms, ImageFormat.Jpeg);
                     customer.Picture = ms.ToArray();
                 }
-
                 connection.Insert(customer);
             }
 
