@@ -1,0 +1,66 @@
+﻿<Window x:Class="GW2024.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GW2024"
+        mc:Ignorable="d"
+       Title="家計簿アプリ" Height="500" Width="400">
+    <Grid>
+        <!-- タブコントロール -->
+        <TabControl>
+            <!-- 金額ページ -->
+            <TabItem Header="金額入力">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <!-- 入力フォーム -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- カレンダー -->
+                        <RowDefinition Height="*"/>
+                        <!-- 消費額表示 -->
+                    </Grid.RowDefinitions>
+
+                    <!-- 入力フォーム -->
+                    <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                        <Label Content="金額："/>
+                        <TextBox Name="AmountInput" Width="200" Margin="0,0,0,5"/>
+
+                        <Label Content="カテゴリー：" />
+                        <ComboBox Name="CategoryInput" Width="200" Margin="0,0,0,5">
+                            <ComboBoxItem Content="食費"/>
+                            <ComboBoxItem Content="交通費"/>
+                            <ComboBoxItem Content="娯楽"/>
+                            <ComboBoxItem Content="その他"/>
+                        </ComboBox>
+
+                        <Label Content="品目：" />
+                        <TextBox Name="ItemInput" Width="200" Margin="0,0,0,5"/>
+
+                        <Label Content="日付：" />
+                        <DatePicker Name="DateInput" Width="200" Margin="0,0,0,5"/>
+
+                        <Button Content="追加" Width="200" Height="30" Margin="0,5,0,0"/>
+                    </StackPanel>
+
+                    <!-- カレンダー -->
+                    <Calendar Grid.Row="1" Name="ExpenseCalendar" Margin="0,0,0,10"/>
+
+                    <!-- 日付ごとの消費額表示 -->
+                    <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                        <Label Content="選択された日付の消費額：" FontWeight="Bold" />
+                        <TextBlock Name="SelectedDateExpense" Text="¥0" FontSize="16" FontWeight="Bold" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <!-- グラフページ -->
+            <TabItem Header="グラフ">
+                <Grid Margin="10">
+                    <!-- グラフ表示領域 -->
+                    <Label Content="グラフはここに表示されます" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
